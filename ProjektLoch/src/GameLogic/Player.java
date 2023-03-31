@@ -2,10 +2,24 @@ package GameLogic;
 
 import java.util.ArrayList;
 
-public class Player {
-    int x,y,hp,view;
+public class Player extends Entity{
+    int view,damage=1;
     ArrayList<Item> inv;
     Direction dir;
+    boolean active=true;
+
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
     public int getView() {
         return view;
@@ -29,29 +43,7 @@ public class Player {
         this.dir = dir;
     }
 
-    public int getX() {
-        return x;
-    }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
 
     public ArrayList<Item> getInv() {
         return inv;
