@@ -3,15 +3,13 @@ package GameLogic;
 import java.util.ArrayList;
 
 public class Player extends Entity{
-    int view,damage=1;
+    int view;
     ArrayList<Item> inv;
     Direction dir;
     boolean active=true;
 
 
-    public int getDamage() {
-        return damage;
-    }
+
 
     public boolean isActive() {
         return active;

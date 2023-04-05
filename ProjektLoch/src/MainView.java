@@ -4,6 +4,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import GameLogic.*;
+import GameLogic.Enemies.SkeletonShield;
+import GameLogic.Enemies.SkeletonSword;
+
 public class MainView extends JFrame{
     private JButton westButton;
     private JButton waitButton;
@@ -119,6 +122,13 @@ public class MainView extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 logic.turnRight(p,lev,roomView);
                 System.out.println("view: "+p.getView()+p.getDir());info.setText("X: "+p.getX()+" Y: "+p.getY()+" Dir:"+p.getDir());
+            }
+        });
+        waitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame a=new Battle(p,new SkeletonShield(1));
+                a.setVisible(true);
             }
         });
     }

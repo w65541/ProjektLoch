@@ -1,5 +1,8 @@
 package GameLogic;
 
+import GameLogic.Enemies.Enemy;
+import GameLogic.Enemies.SkeletonSword;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,16 +21,14 @@ public class Battle extends JFrame{
     Timer timer = new Timer();
     int seconds=0;
     int seconds_p=0;
-    public Battle() {
+    public Battle(Player p,Enemy enemy) {
 
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300,700);
-        Player p=new Player();
-        Enemy enemy=new Enemy();
-        enemy.setSpeed(10);
-p.setDef(1);
-enemy.setDamage(2);
+        //Player p=new Player();
+        //Enemy enemy=new SkeletonSword(1);
+
         enemyHp.setMaximum(enemy.getHp());
         progressBar1.setMaximum(enemy.getSpeed());
         progressBar2.setMaximum(p.getSpeed());
@@ -65,16 +66,30 @@ enemy.setDamage(2);
                 battle.playerDefend();
             }
         });
+        escapeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
     void update(Player p,Enemy e){
         enemyHp.setValue(e.getHp());
         enemyView.setText(""+p.getHp());
-        progressBar1.setValue(seconds%e.getSpeed());
+
+        if(!e.isActive()) {
+            progressBar1.setMaximum(e.getSpeed());
+            progressBar1.setValue(seconds % e.getSpeed());
+        }else {
+            progressBar1.setMaximum(e.getSpeed());
+            seconds=0;
+        }
+
         if(!p.isActive()){progressBar2.setValue(seconds_p%p.getSpeed());
         attackButton.setEnabled(false);
             defendButton.setEnabled(false);
             escapeButton.setEnabled(false);
-
+            progressBar2.setMaximum(p.getSpeed());
         }else{
             progressBar2.setValue(p.getSpeed());
             attackButton.setEnabled(true);
