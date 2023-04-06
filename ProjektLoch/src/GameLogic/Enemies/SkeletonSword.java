@@ -7,7 +7,7 @@ import java.util.TimerTask;
 
 public class SkeletonSword extends Enemy{
     public SkeletonSword(int dif) {
-        setHp(10+random.nextInt(dif)+(dif/2));
+        setHp(5+random.nextInt(dif)+(dif/2));
         setSpeed(7);
         setDef(dif);
         setDamage(3+random.nextInt(dif)+(dif/2));

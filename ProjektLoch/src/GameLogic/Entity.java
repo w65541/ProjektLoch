@@ -1,7 +1,7 @@
 package GameLogic;
 import java.util.Random;
 public class Entity {
-    int x,y,hp=10,speed=5,def=0,damage=1;
+    int x,y,hp=10,speed=2,def=0,damage=1;
     boolean active=true;
 
     public boolean isActive() {

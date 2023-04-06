@@ -1,7 +1,6 @@
 package GameLogic;
 
 import GameLogic.Enemies.Enemy;
-import GameLogic.Enemies.SkeletonSword;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -21,7 +20,8 @@ public class Battle extends JFrame{
     Timer timer = new Timer();
     int seconds=0;
     int seconds_p=0;
-    public Battle(Player p,Enemy enemy) {
+    BattleLogic battle;
+    public Battle(Player p, Enemy enemy, MainView mainView) {
 
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,8 +32,8 @@ public class Battle extends JFrame{
         enemyHp.setMaximum(enemy.getHp());
         progressBar1.setMaximum(enemy.getSpeed());
         progressBar2.setMaximum(p.getSpeed());
-        BattleLogic battle=new BattleLogic(p,enemy);
-
+        battle=new BattleLogic(p,enemy);
+System.out.println(battle.toString());
 
 
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -48,7 +48,10 @@ public class Battle extends JFrame{
             @Override
             public void run() {
                 update(p,enemy);
-            }
+                if(enemy.getHp()<1) {
+                    win(enemy, mainView);
+                    timer.cancel();
+                }}
             },1,1); //update
 
 
@@ -84,8 +87,8 @@ public class Battle extends JFrame{
             progressBar1.setMaximum(e.getSpeed());
             seconds=0;
         }
-
-        if(!p.isActive()){progressBar2.setValue(seconds_p%p.getSpeed());
+        if(!battle.isPlayerActive()){
+            progressBar2.setValue(seconds_p%p.getSpeed());
         attackButton.setEnabled(false);
             defendButton.setEnabled(false);
             escapeButton.setEnabled(false);
@@ -97,5 +100,13 @@ public class Battle extends JFrame{
             escapeButton.setEnabled(true);
             seconds_p=-1;
         }
+    }
+
+    void win(Enemy e,MainView m){
+        m.setN(m.getN()-1);
+        System.out.println(m.getN());
+        if (m.getN()==0)m.setVisible(true);
+        dispose();
+
     }
 }

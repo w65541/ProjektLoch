@@ -1,4 +1,3 @@
-import GameLogic.Battle;
 import GameLogic.*;
 
 import javax.swing.*;

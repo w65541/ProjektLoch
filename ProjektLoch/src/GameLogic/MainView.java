@@ -1,9 +1,11 @@
+package GameLogic;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import GameLogic.*;
+import GameLogic.Enemies.Enemy;
 import GameLogic.Enemies.SkeletonShield;
 import GameLogic.Enemies.SkeletonSword;
 
@@ -18,7 +20,15 @@ public class MainView extends JFrame{
     private JButton leftButton;
     private JButton rightButton;
     private JLabel info;
-    int j=0;
+    public int getN() {
+        return n;
+    }
+
+    public void setN(int n) {
+        this.n = n;
+    }
+
+    int n;
     public MainView() {
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,6 +75,8 @@ public class MainView extends JFrame{
         p.setX(2);
         p.setView(0);
         logic.roomRender(roomView,m.get(1)[2],p,lev);
+
+
         nortButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -127,9 +139,22 @@ public class MainView extends JFrame{
         waitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFrame a=new Battle(p,new SkeletonShield(1));
-                a.setVisible(true);
+                ArrayList<Enemy> en=new ArrayList<Enemy>();
+                en.add(new SkeletonSword(1));
+                en.add(new SkeletonSword(1));
+                startBattle(en,p);
             }
         });
     }
+
+    void startBattle(ArrayList<Enemy> enemies,Player player){
+        System.out.println(enemies.size());
+        n=enemies.size();
+        for (int i = 0; i < enemies.size(); i++) {
+            JFrame a=new Battle(player,enemies.get(i),this);
+            a.setVisible(true);
+        }
+        setVisible(false);
+    }
+
 }

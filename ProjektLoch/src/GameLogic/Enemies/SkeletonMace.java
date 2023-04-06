@@ -18,6 +18,7 @@ public class SkeletonMace extends Enemy{
 
     @Override
     public void attack(Player player, Timer timer) {
+        setActive(false);
         if(ready){
             switch (random.nextInt(getNumOfAttacks())){
                 case 0:player.getHit(getDamage());break; //zwykły atak
@@ -28,7 +29,7 @@ public class SkeletonMace extends Enemy{
         }else {
             player.getHit(getDamage()*3);
             ready=true;
-        }setActive(false);
+        }
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

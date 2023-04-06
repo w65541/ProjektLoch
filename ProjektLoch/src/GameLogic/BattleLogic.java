@@ -9,16 +9,17 @@ public class BattleLogic {
     Player player;
     Enemy enemy;
     ArrayList<Enemy> team;
-
+    boolean playerActive=true;
     public BattleLogic(Player player, Enemy enemy) {
         this.player = player;
         this.enemy = enemy;
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-            if(!enemy.isDead() && enemy.isActive()){System.out.println("atak "+enemy.isActive());enemyAttack();
+                if(enemy.getHp()<=0) {timer.cancel();}
+                if(enemy.isActive()){System.out.println("atak "+enemy.isActive());enemyAttack();}
 
-            }else {}
+
             }
         },enemy.getSpeed()*1000, 1);
     }
@@ -31,9 +32,11 @@ public class BattleLogic {
         enemy.getHit(player.getDamage());
         player.setSpeed(5);
         player.setActive(false);
+        playerActive=false;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                playerActive=true;
                 player.setActive(true);
             }
         },player.getSpeed()*1000);
@@ -42,13 +45,22 @@ public class BattleLogic {
         player.setDef(player.getDef()*2);
         player.setSpeed(player.getSpeed()/2);
         player.setActive(false);
+        playerActive=false;
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 player.setActive(true);
+                playerActive=true;
                 player.setDef(player.getDef()/2);
             }
         },player.getSpeed()*1000);
     }
 
+    public boolean isPlayerActive() {
+        return playerActive;
+    }
+
+    public void setPlayerActive(boolean playerActive) {
+        this.playerActive = playerActive;
+    }
 }
