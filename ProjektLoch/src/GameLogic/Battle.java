@@ -49,7 +49,7 @@ System.out.println(battle.toString());
             public void run() {
                 update(p,enemy);
                 if(enemy.getHp()<1) {
-                    win(enemy, mainView);
+                    win(enemy, mainView,p);
                     timer.cancel();
                 }}
             },1,1); //update
@@ -78,7 +78,7 @@ System.out.println(battle.toString());
     }
     void update(Player p,Enemy e){
         enemyHp.setValue(e.getHp());
-        enemyView.setText(""+p.getHp());
+        enemyHp.setString(""+e.getHp()+"/"+e.getMaxHP());
 
         if(!e.isActive()) {
             progressBar1.setMaximum(e.getSpeed());
@@ -102,10 +102,11 @@ System.out.println(battle.toString());
         }
     }
 
-    void win(Enemy e,MainView m){
+    void win(Enemy e,MainView m,Player p){
         m.setN(m.getN()-1);
         System.out.println(m.getN());
         if (m.getN()==0)m.setVisible(true);
+        m.updateHp(p);
         dispose();
 
     }

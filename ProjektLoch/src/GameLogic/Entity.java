@@ -1,8 +1,16 @@
 package GameLogic;
 import java.util.Random;
 public class Entity {
-    int x,y,hp=10,speed=2,def=0,damage=1;
+    int x,y,hp=10,speed=2,def=0,damage=1,maxHP=10;
     boolean active=true;
+
+    public int getMaxHP() {
+        return maxHP;
+    }
+
+    public void setMaxHP(int maxHp) {
+        this.maxHP = maxHp;
+    }
 
     public boolean isActive() {
         return active;
@@ -67,5 +75,8 @@ public class Entity {
     public void setHp(int hp) {
         this.hp = hp;
     }
-    public void heal(int i){setHp(getHp()+i);}
+    public void heal(int i){
+        setHp(getHp()+i);
+        if(getHp()>getMaxHP()) setHp(getMaxHP());
+    }
 }

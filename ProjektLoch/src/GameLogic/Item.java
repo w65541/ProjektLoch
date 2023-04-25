@@ -7,12 +7,16 @@ public class Item {
     int hp,speed,damage,def,num;
     //Map<Integer, String > types;
     String name,type,desc;
-
     public Item(int hp, int speed, int damage, int def, String name, String type) {
         this.hp = hp;
         this.speed = speed;
         this.damage = damage;
         this.def = def;
+        this.name = name;
+        this.type = type;
+    }
+
+    public Item(String name, String type) {
         this.name = name;
         this.type = type;
     }
@@ -111,4 +115,6 @@ public class Item {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+
 }

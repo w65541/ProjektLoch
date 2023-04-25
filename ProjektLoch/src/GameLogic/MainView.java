@@ -1,12 +1,12 @@
 package GameLogic;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import GameLogic.*;
+import lib.BackgroundPanel;
 import GameLogic.Enemies.Enemy;
-import GameLogic.Enemies.SkeletonShield;
 import GameLogic.Enemies.SkeletonSword;
 
 public class MainView extends JFrame{
@@ -19,7 +19,12 @@ public class MainView extends JFrame{
     private JLabel roomView;
     private JButton leftButton;
     private JButton rightButton;
-    private JLabel info;
+    private JProgressBar info;
+    private JButton heal3Button;
+    private JButton inventoryButton;
+    private JLabel stuff;
+    private JPanel view;
+
     public int getN() {
         return n;
     }
@@ -71,12 +76,35 @@ public class MainView extends JFrame{
         }
         Level lev=new Level(m);
         Player p=new Player();
+
+
+
         p.setY(2);
         p.setX(2);
         p.setView(0);
         logic.roomRender(roomView,m.get(1)[2],p,lev);
-
-
+        JLabel stuff=new JLabel();
+        stuff.setIcon(new ImageIcon(logic.images2.get(12)));
+        GridBagConstraints gbc=new GridBagConstraints();
+        gbc.gridx=0;
+        gbc.gridy=0;
+       // view.ba
+        BackgroundPanel back=new BackgroundPanel(logic.images2.get(12));
+        //back.setImage(logic.images2.get(0));
+panel.add(back,gbc);
+panel.revalidate();
+        panel.repaint();
+       // view.add(back,gbc);
+        view.revalidate();
+        view.repaint();
+        p.setHelmet(new Item(0,0,0,2,"Hełm","helmet"));
+        p.setArmor(new Item(0,0,0,2,"a","armor"));
+        p.setBoots(new Item(0,0,0,2,"b","boots"));
+        p.setWeapon(new Item(0,0,1,0,"v","weapon"));
+        p.setShield(new Item(0,0,0,2,"c","shield"));
+        p.getInv().add(new Item(0,0,0,3,"Hełm żelazny","helmet"));
+        Backpack backpack=new Backpack(p);p.setHp(5);
+        updateHp(p);
         nortButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -126,14 +154,14 @@ public class MainView extends JFrame{
         leftButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logic.turnLeft(p,lev,roomView);info.setText("X: "+p.getX()+" Y: "+p.getY()+" Dir:"+p.getDir());
+                logic.turnLeft(p,lev,roomView);
             }
         });
         rightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 logic.turnRight(p,lev,roomView);
-                System.out.println("view: "+p.getView()+p.getDir());info.setText("X: "+p.getX()+" Y: "+p.getY()+" Dir:"+p.getDir());
+                System.out.println("view: "+p.getView()+p.getDir());
             }
         });
         waitButton.addActionListener(new ActionListener() {
@@ -143,6 +171,21 @@ public class MainView extends JFrame{
                 en.add(new SkeletonSword(1));
                 en.add(new SkeletonSword(1));
                 startBattle(en,p);
+            }
+        });
+        heal3Button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                p.getPotion().heal(p);
+                heal3Button.setText("Heal("+p.getPotion().getCount()+")");
+                if(p.getPotion().getCount()==0) heal3Button.setEnabled(false);
+                updateHp(p);
+            }
+        });
+        inventoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                backpack.setVisible(true);
             }
         });
     }
@@ -155,6 +198,18 @@ public class MainView extends JFrame{
             a.setVisible(true);
         }
         setVisible(false);
+
+    }
+    void updateHp(Player p){
+        info.setMaximum(p.getMaxHP());
+        info.setValue(p.getHp());
+        System.out.println(""+p.getHp()+"/"+p.getMaxHP());
+        info.setString(""+p.getHp()+"/"+p.getMaxHP());
     }
 
+    private void createUIComponents() {
+        // TODO: place custom component creation code here
+        Logic logic=new Logic();
+        BackgroundPanel backgroundPanel1=new BackgroundPanel(logic.images2.get(12));
+    }
 }

@@ -3,18 +3,22 @@ package GameLogic;
 import java.util.ArrayList;
 
 public class Player extends Entity{
-    int view,maxHP;
-    final int bHp=10,bSpeed=5,bDamage=1;
+    int view;
+     int bHp=10,bSpeed=5,bDamage=1;
     ArrayList<Item> inv=new ArrayList<>();
     Direction dir;
     Item helmet,armor,boots, weapon,shield;
-    public int getMaxHP() {
-        return maxHP;
+    Potion potion=new Potion();
+
+    public Player() {
+        setHp(bHp);
+        setMaxHP(bHp);
+        setDamage(bDamage);
+        setDef(0);
+        setSpeed(5);
     }
 
-    public void setMaxHP(int maxHP) {
-        this.maxHP = maxHP;
-    }
+
 
     boolean active=true;
 
@@ -132,5 +136,9 @@ public class Player extends Entity{
 
     public void setInv(ArrayList<Item> inv) {
         this.inv = inv;
+    }
+
+    public Potion getPotion() {
+        return potion;
     }
 }
