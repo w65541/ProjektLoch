@@ -1,6 +1,8 @@
 package GameLogic;
 
 
+import lib.BasicBackgroundPanel;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +13,8 @@ import java.util.ArrayList;
 public class Logic {
     ArrayList<BufferedImage> images=new ArrayList<>();
     public ArrayList<Image> images2=new ArrayList<>();
-    public Logic() {
+
+    public Logic(MainView mainView) {
         try {
             System.out.println(images.size());
             images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\deadend.png")));//0
@@ -38,7 +41,7 @@ public class Logic {
 
     }
 
-    public void roomRender(JLabel l, Room r,Player p,Level lev){
+    public void roomRender(BasicBackgroundPanel l, Room r, Player p, Level lev,JLabel stuff){
 
         if (isAccesible(lev.getMap().get(p.getY())[p.getX()],r)){
             ArrayList<Direction> temp=new ArrayList<>(r.getAccess());
@@ -49,70 +52,84 @@ public class Logic {
                 render+=temp.get(i);
             }
             System.out.println("render: "+render);
+
+            if(r.isKey()) {
+                stuff.setIcon(new ImageIcon(images2.get(9)));
+            }
+            else if(r.isEnemy()) {
+                stuff.setIcon(new ImageIcon(images2.get(11)));
+            }
+            else if (r.isDoor()) {
+                stuff.setIcon(new ImageIcon(images2.get(10)));
+            }else {stuff.setIcon(null);}
+
             switch (p.getDir()){
                 case S: //Patrzy gracz na północ
                     switch (render){
-                        case "": l.setIcon(new ImageIcon(images2.get(0)));return;
-                        case "N": l.setIcon(new ImageIcon(images2.get(2)));return;
-                        case "W": l.setIcon(new ImageIcon(images2.get(8)));return;
-                        case "E": l.setIcon(new ImageIcon(images2.get(7)));return;
-                        case "NW": l.setIcon(new ImageIcon(images2.get(4)));return;
-                        case "NE": l.setIcon(new ImageIcon(images2.get(3)));return;
-                        case "NWE": l.setIcon(new ImageIcon(images2.get(5)));return;
-                        case "WE": l.setIcon(new ImageIcon(images2.get(6)));return;
+                        case "": l.setIcon( (images2.get(0)));return;
+                        case "N": l.setIcon( (images2.get(2)));return;
+                        case "W": l.setIcon( (images2.get(8)));return;
+                        case "E": l.setIcon( (images2.get(7)));return;
+                        case "NW": l.setIcon( (images2.get(4)));return;
+                        case "NE": l.setIcon( (images2.get(3)));return;
+                        case "NWE": l.setIcon( (images2.get(5)));return;
+                        case "WE": l.setIcon( (images2.get(6)));return;
                             }
                     break;
 
                 case N: //Patrzy gracz na południe
                     switch (render){
-                        case "": l.setIcon(new ImageIcon(images2.get(0)));return;
-                        case "S": l.setIcon(new ImageIcon(images2.get(2)));return;
-                        case "E": l.setIcon(new ImageIcon(images2.get(8)));return;
-                        case "W": l.setIcon(new ImageIcon(images2.get(7)));return;
-                        case "ES": l.setIcon(new ImageIcon(images2.get(4)));return;
-                        case "WS": l.setIcon(new ImageIcon(images2.get(3)));return;
-                        case "WES": l.setIcon(new ImageIcon(images2.get(5)));return;
-                        case "WE": l.setIcon(new ImageIcon(images2.get(6)));return;
+                        case "": l.setIcon( (images2.get(0)));return;
+                        case "S": l.setIcon( (images2.get(2)));return;
+                        case "E": l.setIcon( (images2.get(8)));return;
+                        case "W": l.setIcon( (images2.get(7)));return;
+                        case "ES": l.setIcon( (images2.get(4)));return;
+                        case "WS": l.setIcon( (images2.get(3)));return;
+                        case "WES": l.setIcon( (images2.get(5)));return;
+                        case "WE": l.setIcon( (images2.get(6)));return;
                            }
                     break;
 
                 case W: //Patrzy gracz na północ
                     switch (render){
-                        case "": l.setIcon(new ImageIcon(images2.get(0)));return;
-                        case "E": l.setIcon(new ImageIcon(images2.get(2)));return;
-                        case "N": l.setIcon(new ImageIcon(images2.get(8)));return;
-                        case "S": l.setIcon(new ImageIcon(images2.get(7)));return;
-                        case "NE": l.setIcon(new ImageIcon(images2.get(4)));return;
-                        case "ES": l.setIcon(new ImageIcon(images2.get(3)));return;
-                        case "NES": l.setIcon(new ImageIcon(images2.get(5)));return;
-                        case "NS": l.setIcon(new ImageIcon(images2.get(6)));return;
+                        case "": l.setIcon( (images2.get(0)));return;
+                        case "E": l.setIcon( (images2.get(2)));return;
+                        case "N": l.setIcon( (images2.get(8)));return;
+                        case "S": l.setIcon( (images2.get(7)));return;
+                        case "NE": l.setIcon( (images2.get(4)));return;
+                        case "ES": l.setIcon( (images2.get(3)));return;
+                        case "NES": l.setIcon( (images2.get(5)));return;
+                        case "NS": l.setIcon( (images2.get(6)));return;
                            }
                     break;
                 case E: //Patrzy gracz na północ
                     switch (render){
-                        case "": l.setIcon(new ImageIcon(images2.get(0)));return;
-                        case "W": l.setIcon(new ImageIcon(images2.get(2)));return;
-                        case "S": l.setIcon(new ImageIcon(images2.get(8)));return;
-                        case "N": l.setIcon(new ImageIcon(images2.get(7)));return;
-                        case "WS": l.setIcon(new ImageIcon(images2.get(4)));return;
-                        case "NW": l.setIcon(new ImageIcon(images2.get(3)));return;
-                        case "NWS": l.setIcon(new ImageIcon(images2.get(5)));return;
-                        case "NS": l.setIcon(new ImageIcon(images2.get(6)));return;
+                        case "": l.setIcon(images2.get(0));return;
+                        case "W": l.setIcon(images2.get(2));return;
+                        case "S": l.setIcon(images2.get(8));return;
+                        case "N": l.setIcon(images2.get(7));return;
+                        case "WS": l.setIcon( (images2.get(4)));return;
+                        case "NW": l.setIcon( (images2.get(3)));return;
+                        case "NWS": l.setIcon( (images2.get(5)));return;
+                        case "NS": l.setIcon( (images2.get(6)));return;
                             }
                     break;
             }
+
+
         return;
         }
-        l.setIcon(new ImageIcon(images2.get(1)));
+        l.setIcon( (images2.get(1)));
+        stuff.setIcon(null);
     }
-    public void turnRight(Player p,Level r,JLabel l){
+    public void turnRight(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         p.setView((p.getView()+1)%4);
-        roomRender(l,viewRoom(p,r),p,r);
+        roomRender(l,viewRoom(p,r),p,r,stuff);
 }
-    public void turnLeft(Player p,Level r,JLabel l){
+    public void turnLeft(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         if(p.getView()==0){p.setView(3);
         }else{p.setView((p.getView()-1)%4);}
-        roomRender(l,viewRoom(p,r),p,r);
+        roomRender(l,viewRoom(p,r),p,r,stuff);
     }
     boolean isAccesible(Room r1,Room r2){
         //System.out.println(r1.getAccess2().toString()+""+r2.getAccess().toString());
@@ -125,12 +142,12 @@ public class Logic {
         return false;
     }
 
-    public void moveNorth(Player p,Level r,JLabel l){
+    public void moveNorth(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             System.out.println(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()-1)[p.getX()]));
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()-1)[p.getX()])){
                 p.setY(p.getY()-1);
-                roomRender(l,viewRoom(p,r),p,r);
+                roomRender(l,viewRoom(p,r),p,r,stuff);
             }
 
         }catch (Exception e){
@@ -138,33 +155,33 @@ public class Logic {
         }
 }
 
-    public void moveEast(Player p,Level r,JLabel l){
+    public void moveEast(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY())[p.getX()+1])){
                 p.setX(p.getX()+1);
-                roomRender(l,viewRoom(p,r),p,r);
+                roomRender(l,viewRoom(p,r),p,r,stuff);
             }
 
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void moveWest(Player p,Level r,JLabel l){
+    public void moveWest(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY())[p.getX()-1])){
                 p.setX(p.getX()-1);
-                roomRender(l,viewRoom(p,r),p,r);
+                roomRender(l,viewRoom(p,r),p,r,stuff);
             }
 
         }catch (Exception e){
             e.printStackTrace();
         }
     }
-    public void moveSouth(Player p,Level r,JLabel l){
+    public void moveSouth(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()+1)[p.getX()])){
                 p.setY(p.getY()+1);
-                roomRender(l,viewRoom(p,r),p,r);
+                roomRender(l,viewRoom(p,r),p,r,stuff);
             }
 
         }catch (Exception e){

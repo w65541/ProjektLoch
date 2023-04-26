@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import lib.BackgroundPanel;
 import GameLogic.Enemies.Enemy;
 import GameLogic.Enemies.SkeletonSword;
+import lib.BackgroundPanel;
+import lib.BasicBackgroundPanel;
 
 public class MainView extends JFrame{
     private JButton westButton;
@@ -16,14 +18,15 @@ public class MainView extends JFrame{
     private JButton nortButton;
     private JButton southButton;
     private JPanel panel;
-    private JLabel roomView;
+    private BasicBackgroundPanel roomView;
     private JButton leftButton;
     private JButton rightButton;
     private JProgressBar info;
     private JButton heal3Button;
     private JButton inventoryButton;
-    private JLabel stuff;
     private JPanel view;
+    private BackgroundPanel backgroundPanel1;
+    private BasicBackgroundPanel basicBackgroundPanel1;
 
     public int getN() {
         return n;
@@ -38,7 +41,7 @@ public class MainView extends JFrame{
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300,700);
-        Logic logic=new Logic();
+        Logic logic=new Logic(this);
         ArrayList<Room[]> m=new ArrayList<>();
         {
             m.add(new Room[5]);
@@ -74,6 +77,9 @@ public class MainView extends JFrame{
             m.get(4)[3] = new Room(0, 3, 4);
             m.get(4)[4] = new Room(0, 4, 4);
         }
+        m.get(1)[2].setKey(true);
+        m.get(1)[3].setDoor(true);
+        m.get(1)[1].setEnemy(true);
         Level lev=new Level(m);
         Player p=new Player();
 
@@ -82,21 +88,20 @@ public class MainView extends JFrame{
         p.setY(2);
         p.setX(2);
         p.setView(0);
-        logic.roomRender(roomView,m.get(1)[2],p,lev);
+
         JLabel stuff=new JLabel();
-        stuff.setIcon(new ImageIcon(logic.images2.get(12)));
+        //stuff.setIcon(new ImageIcon(logic.images2.get(12)));
         GridBagConstraints gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=0;
-       // view.ba
-        BackgroundPanel back=new BackgroundPanel(logic.images2.get(12));
-        //back.setImage(logic.images2.get(0));
-panel.add(back,gbc);
+        roomView.add(stuff,gbc);
+        roomView.revalidate();
+        roomView.repaint();
+
 panel.revalidate();
         panel.repaint();
-       // view.add(back,gbc);
-        view.revalidate();
-        view.repaint();
+        logic.roomRender(roomView,m.get(1)[2],p,lev,stuff);
+
         p.setHelmet(new Item(0,0,0,2,"Hełm","helmet"));
         p.setArmor(new Item(0,0,0,2,"a","armor"));
         p.setBoots(new Item(0,0,0,2,"b","boots"));
@@ -109,23 +114,21 @@ panel.revalidate();
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (p.getView()){
-                    case 0:logic.moveNorth(p,lev,roomView);break;
-                    case 1:logic.moveEast(p,lev,roomView);break;
-                    case 2:logic.moveSouth(p,lev,roomView);break;
-                    case 3:logic.moveWest(p,lev,roomView);break;
+                    case 0:logic.moveNorth(p,lev,roomView,stuff);break;
+                    case 1:logic.moveEast(p,lev,roomView,stuff);break;
+                    case 2:logic.moveSouth(p,lev,roomView,stuff);break;
+                    case 3:logic.moveWest(p,lev,roomView,stuff);break;
                 }
-
-
             }
         });
         eastButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (p.getView()){
-                    case 3:logic.moveNorth(p,lev,roomView);break;
-                    case 0:logic.moveEast(p,lev,roomView);break;
-                    case 1:logic.moveSouth(p,lev,roomView);break;
-                    case 2:logic.moveWest(p,lev,roomView);break;
+                    case 3:logic.moveNorth(p,lev,roomView,stuff);break;
+                    case 0:logic.moveEast(p,lev,roomView,stuff);break;
+                    case 1:logic.moveSouth(p,lev,roomView,stuff);break;
+                    case 2:logic.moveWest(p,lev,roomView,stuff);break;
                 }
             }
         });
@@ -133,10 +136,10 @@ panel.revalidate();
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (p.getView()){
-                    case 1:logic.moveNorth(p,lev,roomView);break;
-                    case 2:logic.moveEast(p,lev,roomView);break;
-                    case 3:logic.moveSouth(p,lev,roomView);break;
-                    case 0:logic.moveWest(p,lev,roomView);break;
+                    case 1:logic.moveNorth(p,lev,roomView,stuff);break;
+                    case 2:logic.moveEast(p,lev,roomView,stuff);break;
+                    case 3:logic.moveSouth(p,lev,roomView,stuff);break;
+                    case 0:logic.moveWest(p,lev,roomView,stuff);break;
                 }
             }
         });
@@ -144,23 +147,23 @@ panel.revalidate();
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (p.getView()){
-                    case 2:logic.moveNorth(p,lev,roomView);break;
-                    case 3:logic.moveEast(p,lev,roomView);break;
-                    case 0:logic.moveSouth(p,lev,roomView);break;
-                    case 1:logic.moveWest(p,lev,roomView);break;
+                    case 2:logic.moveNorth(p,lev,roomView,stuff);break;
+                    case 3:logic.moveEast(p,lev,roomView,stuff);break;
+                    case 0:logic.moveSouth(p,lev,roomView,stuff);break;
+                    case 1:logic.moveWest(p,lev,roomView,stuff);break;
                 }
             }
         });
         leftButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logic.turnLeft(p,lev,roomView);
+                logic.turnLeft(p,lev,roomView,stuff);
             }
         });
         rightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                logic.turnRight(p,lev,roomView);
+                logic.turnRight(p,lev,roomView,stuff);
                 System.out.println("view: "+p.getView()+p.getDir());
             }
         });
@@ -169,8 +172,8 @@ panel.revalidate();
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Enemy> en=new ArrayList<Enemy>();
                 en.add(new SkeletonSword(1));
-                en.add(new SkeletonSword(1));
-                startBattle(en,p);
+                //en.add(new SkeletonSword(1));
+                startBattle(en,p,lev.getMap().get(p.getY())[p.getX()]);
             }
         });
         heal3Button.addActionListener(new ActionListener() {
@@ -190,15 +193,14 @@ panel.revalidate();
         });
     }
 
-    void startBattle(ArrayList<Enemy> enemies,Player player){
+    void startBattle(ArrayList<Enemy> enemies,Player player,Room r){
         System.out.println(enemies.size());
         n=enemies.size();
         for (int i = 0; i < enemies.size(); i++) {
-            JFrame a=new Battle(player,enemies.get(i),this);
+            JFrame a=new Battle(player,enemies.get(i),this,r);
             a.setVisible(true);
         }
         setVisible(false);
-
     }
     void updateHp(Player p){
         info.setMaximum(p.getMaxHP());
@@ -207,9 +209,5 @@ panel.revalidate();
         info.setString(""+p.getHp()+"/"+p.getMaxHP());
     }
 
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-        Logic logic=new Logic();
-        BackgroundPanel backgroundPanel1=new BackgroundPanel(logic.images2.get(12));
-    }
+
 }

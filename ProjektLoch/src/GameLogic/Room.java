@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Room {
     //RoomType type;//zmienić na liczbe
 
-    boolean key=false,enemy=false,treasure=false;
+    boolean key=false,enemy=false,treasure=false,door=false;
     ArrayList<Direction> access= new ArrayList<>();
     ArrayList<Direction> access2= new ArrayList<>();
     int x,y,type;
@@ -103,5 +103,13 @@ public class Room {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public boolean isDoor() {
+        return door;
+    }
+
+    public void setDoor(boolean door) {
+        this.door = door;
     }
 }

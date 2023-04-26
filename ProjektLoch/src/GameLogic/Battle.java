@@ -21,8 +21,9 @@ public class Battle extends JFrame{
     int seconds=0;
     int seconds_p=0;
     BattleLogic battle;
-    public Battle(Player p, Enemy enemy, MainView mainView) {
-
+    Room room;
+    public Battle(Player p, Enemy enemy, MainView mainView, Room r) {
+        room=r;
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300,700);
@@ -105,7 +106,8 @@ System.out.println(battle.toString());
     void win(Enemy e,MainView m,Player p){
         m.setN(m.getN()-1);
         System.out.println(m.getN());
-        if (m.getN()==0)m.setVisible(true);
+        if (m.getN()==0){m.setVisible(true);
+        room.setEnemy(false);}
         m.updateHp(p);
         dispose();
 
