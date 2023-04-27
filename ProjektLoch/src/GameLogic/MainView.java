@@ -1,9 +1,11 @@
 package GameLogic;
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import lib.BackgroundPanel;
 import GameLogic.Enemies.Enemy;
@@ -24,6 +26,7 @@ public class MainView extends JFrame{
     private JProgressBar info;
     private JButton heal3Button;
     private JButton inventoryButton;
+    private JPanel mapa;
     private JPanel view;
     private BackgroundPanel backgroundPanel1;
     private BasicBackgroundPanel basicBackgroundPanel1;
@@ -97,7 +100,7 @@ public class MainView extends JFrame{
         roomView.add(stuff,gbc);
         roomView.revalidate();
         roomView.repaint();
-
+        mapa.setLayout(new GridBagLayout());
 panel.revalidate();
         panel.repaint();
         logic.roomRender(roomView,m.get(1)[2],p,lev,stuff);
@@ -119,6 +122,7 @@ panel.revalidate();
                     case 2:logic.moveSouth(p,lev,roomView,stuff);break;
                     case 3:logic.moveWest(p,lev,roomView,stuff);break;
                 }
+                mapping(mapa,p,lev);
             }
         });
         eastButton.addActionListener(new ActionListener() {
@@ -151,7 +155,7 @@ panel.revalidate();
                     case 3:logic.moveEast(p,lev,roomView,stuff);break;
                     case 0:logic.moveSouth(p,lev,roomView,stuff);break;
                     case 1:logic.moveWest(p,lev,roomView,stuff);break;
-                }
+                }mapping(mapa,p,lev);
             }
         });
         leftButton.addActionListener(new ActionListener() {
@@ -165,7 +169,17 @@ panel.revalidate();
             public void actionPerformed(ActionEvent e) {
                 logic.turnRight(p,lev,roomView,stuff);
                 System.out.println("view: "+p.getView()+p.getDir());
+                mapa.remove(getMapCell(mapa,1,1));
+                //System.out.println(getMapCell(mapa,1,1).getParent());
+                JLabel mapRoom=new JLabel();
+                mapRoom.setText("lol");
+                GridBagConstraints ggg=new GridBagConstraints();
+                ggg.gridx=1;ggg.gridy=1;
+                mapa.add(mapRoom,ggg);
+                mapa.revalidate();
+                mapa.repaint();
             }
+
         });
         waitButton.addActionListener(new ActionListener() {
             @Override
@@ -209,5 +223,30 @@ panel.revalidate();
         info.setString(""+p.getHp()+"/"+p.getMaxHP());
     }
 
+    void mapping(JPanel panel,Player p,Level l){
+        try {
+            ArrayList<Room> tomap=new Logic(this).mappable(p,l.getMap());
+            GridBagConstraints gbc=new GridBagConstraints();
+            for (int i = 0; i < tomap.size(); i++) {
+                gbc.gridx=tomap.get(i).getX()-1;
+                gbc.gridy=tomap.get(i).getY()-1;
+                JLabel mapRoom=new JLabel();
+                mapRoom.setIcon(new ImageIcon( ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\"+tomap.get(i).map+".png"))));
+                panel.add(mapRoom,gbc);
+            }
+            panel.revalidate();
+            panel.repaint();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        }
+        Component getMapCell(JPanel p,int x,int y){
+            GridBagLayout layout = (GridBagLayout) p.getLayout();
+            for (Component comp : p.getComponents()) {
+                GridBagConstraints gbc = layout.getConstraints(comp);
+                if (gbc.gridx == x && gbc.gridy == y) {
+                    return comp;
+                }
+            }return null;}
+    }
 
-}

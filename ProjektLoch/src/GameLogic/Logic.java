@@ -141,7 +141,26 @@ public class Logic {
         }
         return false;
     }
-
+    public ArrayList<Room> mappable(Player p,ArrayList<Room[]> rooms){
+        ArrayList<Room> tomap=new ArrayList<>();
+        if(isAccesible(rooms.get(p.getY())[p.getX()],rooms.get(p.getY()-1)[p.getX()]) && !rooms.get(p.getY()-1)[p.getX()].isMapped()){
+            rooms.get(p.getY()-1)[p.getX()].setMapped(true);
+            tomap.add(rooms.get(p.getY()-1)[p.getX()]);
+        }
+        if(isAccesible(rooms.get(p.getY())[p.getX()],rooms.get(p.getY())[p.getX()+1]) && !rooms.get(p.getY())[p.getX()+1].isMapped()){
+            rooms.get(p.getY())[p.getX()+1].setMapped(true);
+            tomap.add(rooms.get(p.getY())[p.getX()+1]);
+        }
+        if(isAccesible(rooms.get(p.getY())[p.getX()],rooms.get(p.getY())[p.getX()-1]) && !rooms.get(p.getY())[p.getX()-1].isMapped()){
+            rooms.get(p.getY())[p.getX()-1].setMapped(true);
+            tomap.add(rooms.get(p.getY())[p.getX()-1]);
+        }
+        if(isAccesible(rooms.get(p.getY())[p.getX()],rooms.get(p.getY()+1)[p.getX()]) && !rooms.get(p.getY()+1)[p.getX()].isMapped()){
+            rooms.get(p.getY()+1)[p.getX()].setMapped(true);
+            tomap.add(rooms.get(p.getY()+1)[p.getX()]);
+        }
+        return tomap;
+    }
     public void moveNorth(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             System.out.println(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()-1)[p.getX()]));

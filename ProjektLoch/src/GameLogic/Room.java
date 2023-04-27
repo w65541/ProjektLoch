@@ -5,9 +5,10 @@ import java.util.ArrayList;
 public class Room {
     //RoomType type;//zmienić na liczbe
 
-    boolean key=false,enemy=false,treasure=false,door=false;
+    boolean key=false,enemy=false,treasure=false,door=false,mapped=false;
     ArrayList<Direction> access= new ArrayList<>();
     ArrayList<Direction> access2= new ArrayList<>();
+    String map="";
     int x,y,type;
 
     public Room(int type, int x, int y) {
@@ -15,6 +16,7 @@ public class Room {
         this.x = x;
         this.y = y;
         switch (this.type){
+            case 0: mapped=true; break;
             case 1: access.add(Direction.N); break;
             case 2: access.add(Direction.E); break;
             case 3: access.add(Direction.W); break;
@@ -32,6 +34,7 @@ public class Room {
             case 15: access.add(Direction.N); access.add(Direction.W); access.add(Direction.S); break;
         }
         for (int i = 0; i < access.size(); i++) {
+            map+=access.get(i);
             switch (access.get(i)){
                 case E: access2.add(Direction.W);break;
                 case W: access2.add(Direction.E);break;
@@ -111,5 +114,13 @@ public class Room {
 
     public void setDoor(boolean door) {
         this.door = door;
+    }
+
+    public boolean isMapped() {
+        return mapped;
+    }
+
+    public void setMapped(boolean mapped) {
+        this.mapped = mapped;
     }
 }
