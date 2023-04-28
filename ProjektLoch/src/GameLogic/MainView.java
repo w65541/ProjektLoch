@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import lib.BackgroundPanel;
 import GameLogic.Enemies.Enemy;
@@ -30,7 +31,7 @@ public class MainView extends JFrame{
     private JPanel view;
     private BackgroundPanel backgroundPanel1;
     private BasicBackgroundPanel basicBackgroundPanel1;
-
+    private ArrayList<JLabel[]> mapCells=new ArrayList<>();
     public int getN() {
         return n;
     }
@@ -86,7 +87,20 @@ public class MainView extends JFrame{
         Level lev=new Level(m);
         Player p=new Player();
 
-
+        mapa.setLayout(new GridBagLayout());
+        GridBagConstraints gbc=new GridBagConstraints();
+        for(int i=0;i<lev.getMap().size()-2;i++)
+        {
+            mapCells.add(new JLabel[lev.getMap().get(i).length-2]);
+            for (int j = 0; j < lev.getMap().get(i).length-2; j++) {
+                gbc.gridx=j;
+                gbc.gridy=i;
+                mapCells.get(i)[j]=new JLabel();
+                mapa.add(mapCells.get(i)[j],gbc);mapa.revalidate();
+                System.out.println(lev.getMap().get(i).length-2);
+            }
+        }
+        mapa.repaint();
 
         p.setY(2);
         p.setX(2);
@@ -94,13 +108,12 @@ public class MainView extends JFrame{
 
         JLabel stuff=new JLabel();
         //stuff.setIcon(new ImageIcon(logic.images2.get(12)));
-        GridBagConstraints gbc=new GridBagConstraints();
         gbc.gridx=0;
         gbc.gridy=0;
         roomView.add(stuff,gbc);
         roomView.revalidate();
         roomView.repaint();
-        mapa.setLayout(new GridBagLayout());
+
 panel.revalidate();
         panel.repaint();
         logic.roomRender(roomView,m.get(1)[2],p,lev,stuff);
@@ -113,6 +126,13 @@ panel.revalidate();
         p.getInv().add(new Item(0,0,0,3,"Hełm żelazny","helmet"));
         Backpack backpack=new Backpack(p);p.setHp(5);
         updateHp(p);
+        try {mapping(mapa,p,lev);
+            mapCells.get(p.getY()-1)[p.getX()-1]
+                    .setIcon(new ImageIcon( ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\player\\"+p.getDir()+".png"))));
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
+
         nortButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,7 +153,7 @@ panel.revalidate();
                     case 0:logic.moveEast(p,lev,roomView,stuff);break;
                     case 1:logic.moveSouth(p,lev,roomView,stuff);break;
                     case 2:logic.moveWest(p,lev,roomView,stuff);break;
-                }
+                }mapping(mapa,p,lev);
             }
         });
         westButton.addActionListener(new ActionListener() {
@@ -144,7 +164,7 @@ panel.revalidate();
                     case 2:logic.moveEast(p,lev,roomView,stuff);break;
                     case 3:logic.moveSouth(p,lev,roomView,stuff);break;
                     case 0:logic.moveWest(p,lev,roomView,stuff);break;
-                }
+                }mapping(mapa,p,lev);
             }
         });
         southButton.addActionListener(new ActionListener() {
@@ -162,22 +182,26 @@ panel.revalidate();
             @Override
             public void actionPerformed(ActionEvent e) {
                 logic.turnLeft(p,lev,roomView,stuff);
+                try {
+                    mapCells.get(p.getY()-1)[p.getX()-1]
+                            .setIcon(new ImageIcon( ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\player\\"+p.getDir()+".png"))));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
+
         });
         rightButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 logic.turnRight(p,lev,roomView,stuff);
                 System.out.println("view: "+p.getView()+p.getDir());
-                mapa.remove(getMapCell(mapa,1,1));
-                //System.out.println(getMapCell(mapa,1,1).getParent());
-                JLabel mapRoom=new JLabel();
-                mapRoom.setText("lol");
-                GridBagConstraints ggg=new GridBagConstraints();
-                ggg.gridx=1;ggg.gridy=1;
-                mapa.add(mapRoom,ggg);
-                mapa.revalidate();
-                mapa.repaint();
+                try {
+                    mapCells.get(p.getY()-1)[p.getX()-1]
+                            .setIcon(new ImageIcon( ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\player\\"+p.getDir()+".png"))));
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
 
         });
@@ -226,27 +250,17 @@ panel.revalidate();
     void mapping(JPanel panel,Player p,Level l){
         try {
             ArrayList<Room> tomap=new Logic(this).mappable(p,l.getMap());
-            GridBagConstraints gbc=new GridBagConstraints();
+            if (tomap!=null){
             for (int i = 0; i < tomap.size(); i++) {
-                gbc.gridx=tomap.get(i).getX()-1;
-                gbc.gridy=tomap.get(i).getY()-1;
-                JLabel mapRoom=new JLabel();
-                mapRoom.setIcon(new ImageIcon( ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\"+tomap.get(i).map+".png"))));
-                panel.add(mapRoom,gbc);
+                mapCells.get(tomap.get(i).getY()-1)[tomap.get(i).getX()-1].setIcon(new ImageIcon( ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\"+tomap.get(i).map+".png"))));
             }
-            panel.revalidate();
-            panel.repaint();
+            }
+            l.getMap().get(p.getY())[p.getX()].setMapped(false);
+            mapCells.get(p.getY()-1)[p.getX()-1]
+                    .setIcon(new ImageIcon( ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\player\\"+p.getDir()+".png"))));
         }catch (Exception e){
             e.printStackTrace();
         }
         }
-        Component getMapCell(JPanel p,int x,int y){
-            GridBagLayout layout = (GridBagLayout) p.getLayout();
-            for (Component comp : p.getComponents()) {
-                GridBagConstraints gbc = layout.getConstraints(comp);
-                if (gbc.gridx == x && gbc.gridy == y) {
-                    return comp;
-                }
-            }return null;}
     }
 
