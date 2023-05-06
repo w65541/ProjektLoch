@@ -56,7 +56,7 @@ public class Logic {
             if(r.isKey()) {
                 stuff.setIcon(new ImageIcon(images2.get(9)));
             }
-            else if(r.isEnemy()) {
+            else if(r.getEnemies()!=null) {
                 stuff.setIcon(new ImageIcon(images2.get(11)));
             }
             else if (r.isDoor()) {

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class Player extends Entity{
     int view;
-     int bHp=10,bSpeed=5,bDamage=1;
+     int bHp=10,bSpeed=5,bDamage=1,level=0,lastLevel;
     ArrayList<Item> inv=new ArrayList<>();
     Direction dir;
     Item helmet,armor,boots, weapon,shield;
     Potion potion=new Potion();
-
+boolean key=false;
     public Player() {
         setHp(bHp);
         setMaxHP(bHp);
@@ -22,6 +22,13 @@ public class Player extends Entity{
 
     boolean active=true;
 
+    public boolean isKey() {
+        return key;
+    }
+
+    public void setKey(boolean key) {
+        this.key = key;
+    }
 
     public Item getHelmet() {
         return helmet;
@@ -73,6 +80,22 @@ public class Player extends Entity{
 
     public int getView() {
         return view;
+    }
+public void nextLevel(){level++;}
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getLastLevel() {
+        return lastLevel;
+    }
+
+    public void setLastLevel(int lastLevel) {
+        this.lastLevel = lastLevel;
     }
 
     public void setView(int view) {

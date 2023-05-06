@@ -107,7 +107,7 @@ System.out.println(battle.toString());
         m.setN(m.getN()-1);
         System.out.println(m.getN());
         if (m.getN()==0){m.setVisible(true);
-        room.setEnemy(false);}
+        room.setEnemies(null);}
         m.updateHp(p);
         dispose();
 

@@ -5,7 +5,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ActionListener;import java.awt.event.MouseAdapter;
 
 public class Backpack extends JFrame{
     private JPanel panel;
@@ -136,7 +136,7 @@ public class Backpack extends JFrame{
                 }
             }
         });
-    }
+    panel.addMouseListener(new MouseAdapter() { } );}
     public void update(Player player){
         data.addElement(player.getInv().get(player.getInv().size()-1));
     }

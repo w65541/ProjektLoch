@@ -1,5 +1,7 @@
 package GameLogic;
 
+import GameLogic.Enemies.Enemy;
+
 import java.util.ArrayList;
 
 public class Room {
@@ -10,7 +12,7 @@ public class Room {
     ArrayList<Direction> access2= new ArrayList<>();
     String map="";
     int x,y,type;
-
+    ArrayList<Enemy> enemies;
     public Room(int type, int x, int y) {
         this.type = type;
         this.x = x;
@@ -42,6 +44,14 @@ public class Room {
                 case S: access2.add(Direction.N);break;
             }
         }
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
+    }
+
+    public void setEnemies(ArrayList<Enemy> enemies) {
+        this.enemies = enemies;
     }
 
     public ArrayList<Direction> getAccess2() {
@@ -122,5 +132,12 @@ public class Room {
 
     public void setMapped(boolean mapped) {
         this.mapped = mapped;
+    }
+
+    @Override
+    public String toString() {
+        return "Room{" +
+                "type=" + type +
+                '}';
     }
 }

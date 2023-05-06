@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import GameLogic.Enemies.*;
 public class Level {
     ArrayList<Room[]> map=new ArrayList<Room[]>();
-    int dificulty;
+    int dificulty,startX,startY;
     int enemy_number;
     ArrayList<ArrayList<Enemy>> enemyGroups=new ArrayList<>();
     public Level(ArrayList<Room[]> map) {
@@ -31,6 +31,23 @@ public class Level {
             }
         }
     }
+
+    public int getStartX() {
+        return startX;
+    }
+
+    public void setStartX(int startX) {
+        this.startX = startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public void setStartY(int startY) {
+        this.startY = startY;
+    }
+
     public ArrayList<Room[]> getMap() {
         return map;
     }
