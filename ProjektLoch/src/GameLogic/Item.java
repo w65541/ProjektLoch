@@ -1,12 +1,22 @@
 package GameLogic;
 
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Item {
-    int hp,speed,damage,def,num;
-    //Map<Integer, String > types;
+    int hp,speed,damage,def,num,id;
+    Map<Integer, String > types;
     String name,type,desc;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public Item(int hp, int speed, int damage, int def, String name, String type) {
         this.hp = hp;
         this.speed = speed;
@@ -15,7 +25,15 @@ public class Item {
         this.name = name;
         this.type = type;
     }
-
+    public Item(String name, String type,int hp, int speed, int damage, int def,int id) {
+        this.hp = hp;
+        this.speed = speed;
+        this.damage = damage;
+        this.def = def;
+        this.name = name;
+        this.type = type;
+        this.id=id;
+    }
     public Item(String name, String type) {
         this.name = name;
         this.type = type;
@@ -28,6 +46,7 @@ public class Item {
         this.def = i.def;
         this.name = i.name;
         this.type = i.type;
+        id=i.id;
     }
     public Item(Item i,Item i2) {
         this.hp = i.hp;
@@ -37,6 +56,11 @@ public class Item {
         this.name = i.name;
         this.type = i2.type;
     }
+
+    public Item(int id) {
+        this.id = id;
+    }
+
     String opis(){
         String opis="";
         opis+=name+"\n"+type+"\n";

@@ -1,5 +1,6 @@
 import GameLogic.*;
 import GameLogic.Player;
+import jdk.jfr.StackTrace;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -9,6 +10,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -95,25 +98,31 @@ public class Main {
         m2.get(1)[1].setKey(true);
         m2.get(3)[1].setDoor(true);
         ArrayList<Level> levels=new ArrayList<>();
-        levels.add(new Level(dodajZCSV(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv"))));levels.add(new Level(m2));
+        levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv")));
+levels.add(new Level(m2));
         //JFrame a=new Backpack(p);
         levels.get(0).setStartX(2);levels.get(0).setStartY(2);
         levels.get(1).setStartX(1);levels.get(1).setStartY(2);
         p.setLastLevel(levels.size());
+        Map<Integer,Item> itemList=new HashMap<>();
+        loadItems(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\Data\\Items.csv"),itemList);
+        System.out.println(itemList.get(1).toString());
+        load(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\test.csv"),levels,itemList);
       /*  for (int i = 0; i < levels.get(0).getMap().size(); i++) {
             for (int j = 0; j < levels.get(0).getMap().get(i).length; j++) {
                 System.out.println(levels.get(0).getMap().get(i)[j].getType());
             }
 
         }*/
-        JFrame a=new MainView(levels,p,new Backpack(p));
-        a.setVisible(true);
+        //JFrame a=new MainView(levels,p,new Backpack(p));
+        //a.setVisible(true);
        // dodajZCSV(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv"));
     }
 
-    public static ArrayList<Room[]> dodajZCSV(Path p){
+    public static Level loadLevels(Path p){
         try {
             int y=1;
+            Level level=new Level();
             ArrayList<Room[]> map = new ArrayList<>();
             CSVParser plik=CSVParser.parse(p, Charset.defaultCharset(), CSVFormat.DEFAULT.withFirstRecordAsHeader());
             int n=plik.getHeaderMap().size();
@@ -121,13 +130,13 @@ public class Main {
             for (int i = 0; i < n+2; i++) {
                 map.get(0)[i]=new Room(0,i,0);
             }
+
            for (CSVRecord record : plik) {
                map.add(new Room[n+2]);
                map.get(y)[0]=new Room(0,0,y);
                map.get(y)[0]=new Room(0,n,y);
                for (int x = 0; x < n; x++) {
                    String room = record.get(""+(x+1));
-
                    String[] rooms=room.split(":");System.out.println(rooms.length);
                    map.get(y)[x+1]=new Room(Integer.parseInt(rooms[0]),x+1,y);
                    if(rooms.length>1)
@@ -136,6 +145,7 @@ public class Main {
                        case "d":map.get(y)[x+1].setDoor(true);break;
                        case "i":break;
                        case "e":break;
+                       case "p":level.setStartX(x+1);level.setStartY(y);break;
                    }
                }
                map.get(y)[n+1]=new Room(0,n+1,y);
@@ -145,11 +155,109 @@ public class Main {
             for (int i = 0; i < n+2; i++) {
                 map.get(y)[i]=new Room(0,i,y);
             }
-return map;
+            level.setMap(map);
+return level;
+        }catch (Exception e){
+            e.printStackTrace();
+        }return null;
+    }
+    public static void load(Path p,ArrayList<Level> levels,Map<Integer,Item> itemList){
+        try {
+        Player player=wczytajGracza(p,itemList);
+        Level level=new Level(wczytajLevel(p));
+        level.setStartY(player.getY());
+        level.setStartX(player.getX());
+        levels.set(player.getLevel(),level);
+            player.setLastLevel(levels.size());
+            MainView a=new MainView(levels,player,new Backpack(player));
+            a.mapRestoration();
+            a.setVisible(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    public static ArrayList<Room[]> wczytajLevel(Path p){
+        try {
+            int y=1;
+            ArrayList<Room[]> map = new ArrayList<>();
+            CSVParser plik=CSVParser.parse(p, Charset.defaultCharset(), CSVFormat.DEFAULT.withFirstRecordAsHeader());
+            int n=plik.getHeaderMap().size()-2;
+            map.add(new Room[n+2]);
+            for (int i = 0; i < n+2; i++) {
+                map.get(0)[i]=new Room(0,i,0);
+            }
+
+            for (CSVRecord record : plik) {
+                map.add(new Room[n+2]);
+                map.get(y)[0]=new Room(0,0,y);
+                map.get(y)[0]=new Room(0,n,y);
+                for (int x = 0; x < n; x++) {
+                    String room = record.get(""+(x+1));
+                    String[] rooms=room.split(":");System.out.println(rooms.length);
+                    map.get(y)[x+1]=new Room(Integer.parseInt(rooms[0]),x+1,y);
+                    if(rooms[1].equals("m"))map.get(y)[x+1].setMapped(true);
+                    if(rooms.length>2)
+                        switch (rooms[2]){
+                            case "k":map.get(y)[x+1].setKey(true);break;
+                            case "d":map.get(y)[x+1].setDoor(true);break;
+                            case "i":break;
+                            case "e":break;
+                        }
+                }
+                map.get(y)[n+1]=new Room(0,n+1,y);
+                y++;
+            }
+            map.add(new Room[n+2]);
+            for (int i = 0; i < n+2; i++) {
+                map.get(y)[i]=new Room(0,i,y);
+            }
+            return map;
         }catch (Exception e){
             e.printStackTrace();
         }return null;
     }
 
+    public static Player wczytajGracza(Path p,Map<Integer,Item> itemList){
+        try {
+            Player player=new Player();
+            CSVParser plik=CSVParser.parse(p, Charset.defaultCharset(), CSVFormat.DEFAULT.withFirstRecordAsHeader());
+            for (CSVRecord record : plik) {
+                    String temp1 = record.get("Player");
+                String temp2 = record.get("Inv");
+                String[] pStats=temp1.split(":");
+                String[] pInv=temp2.split(":");
+                player.setX(Integer.parseInt(pStats[0]));
+                player.setY(Integer.parseInt(pStats[1]));
+                player.setLevel(Integer.parseInt(pStats[2]));
+                player.setHp(Integer.parseInt(pStats[3]));
+                player.getPotion().setCount(Integer.parseInt(pStats[4]));
+                player.setKey(Boolean.parseBoolean(pStats[5]));
+                player.setHelmet(new Item(itemList.get(Integer.parseInt(pStats[6]))));
+                player.setArmor(new Item(itemList.get(Integer.parseInt(pStats[7]))));
+                player.setBoots(new Item(itemList.get(Integer.parseInt(pStats[8]))));
+                player.setWeapon(new Item(itemList.get(Integer.parseInt(pStats[9]))));
+                player.setShield(new Item(itemList.get(Integer.parseInt(pStats[10]))));
 
+                for (String item: pInv) {
+                    player.getInv().add(new Item(itemList.get(Integer.parseInt(item))));
+                }
+                return player;
+
+                }
+        }catch (Exception e){
+            e.printStackTrace();
+        }return null;
+    }
+    static void loadItems(Path p, Map<Integer,Item> itemList){
+        try {
+            int i=0;
+            CSVParser plik=CSVParser.parse(p, Charset.defaultCharset(), CSVFormat.DEFAULT.withFirstRecordAsHeader());
+            for (CSVRecord record : plik) {
+                itemList.put(i,new Item(record.get("Name"),record.get("Type"),Integer.parseInt(record.get("Hp")),Integer.parseInt(record.get("Speed")),Integer.parseInt(record.get("Damage")),Integer.parseInt(record.get("Defense")),i));
+                i++;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }

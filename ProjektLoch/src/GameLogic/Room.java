@@ -11,7 +11,7 @@ public class Room {
     ArrayList<Direction> access= new ArrayList<>();
     ArrayList<Direction> access2= new ArrayList<>();
     String map="";
-    int x,y,type;
+    int x,y,type, contentId;
     ArrayList<Enemy> enemies;
     public Room(int type, int x, int y) {
         this.type = type;
@@ -44,6 +44,14 @@ public class Room {
                 case S: access2.add(Direction.N);break;
             }
         }
+    }
+
+    public int getContentId() {
+        return contentId;
+    }
+
+    public void setContentId(int contentId) {
+        this.contentId = contentId;
     }
 
     public ArrayList<Enemy> getEnemies() {

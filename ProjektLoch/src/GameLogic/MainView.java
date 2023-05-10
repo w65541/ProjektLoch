@@ -4,13 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import lib.BackgroundPanel;
 import GameLogic.Enemies.Enemy;
 import GameLogic.Enemies.SkeletonSword;
 import lib.BasicBackgroundPanel;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 
 public class MainView extends JFrame {
     private JButton westButton;
@@ -44,7 +51,7 @@ public class MainView extends JFrame {
     int n;
 Player p;
     ArrayList<Level> levels;
-    Backpack backpack;
+    Backpack backpack;Level lev;
     public MainView(ArrayList<Level> levels,Player player,Backpack backpack) {
         p=player;
         this.levels=levels;
@@ -53,7 +60,7 @@ Player p;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300, 700);
         Logic logic = new Logic(this);
-        Level lev=levels.get(p.getLevel());
+        lev=levels.get(p.getLevel());
 
         mapa.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -120,18 +127,10 @@ Player p;
             @Override
             public void actionPerformed(ActionEvent e) {
                 switch (p.getView()) {
-                    case 3:
-                        logic.moveNorth(p, lev, roomView, stuff);
-                        break;
-                    case 0:
-                        logic.moveEast(p, lev, roomView, stuff);
-                        break;
-                    case 1:
-                        logic.moveSouth(p, lev, roomView, stuff);
-                        break;
-                    case 2:
-                        logic.moveWest(p, lev, roomView, stuff);
-                        break;
+                    case 3 -> logic.moveNorth(p, lev, roomView, stuff);
+                    case 0 -> logic.moveEast(p, lev, roomView, stuff);
+                    case 1 -> logic.moveSouth(p, lev, roomView, stuff);
+                    case 2 -> logic.moveWest(p, lev, roomView, stuff);
                 }
                 moveCheck(getMain(), p, lev,backpack);
             }
@@ -227,6 +226,12 @@ Player p;
                 backpack.setVisible(true);
             }
         });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                zapiszDoCSV(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\test.csv"),lev,p);
+            }
+        });
     }
 
     void startBattle(ArrayList<Enemy> enemies, Player player, Room r) {
@@ -245,7 +250,24 @@ Player p;
         System.out.println("" + p.getHp() + "/" + p.getMaxHP());
         info.setString("" + p.getHp() + "/" + p.getMaxHP());
     }
+    public void mapRestoration(){
+        restoreMap(mapa,p,lev);
+    }
+    void restoreMap(JPanel panel,Player p,Level l){
+        try {
 
+                for (int i = 1; i < l.getMap().size()-1; i++) {
+                    for (int j = 1; j < l.getMap().get(i).length-1; j++) {
+                        if(l.getMap().get(i)[j].isMapped())mapCells.get(i-1)[j-1].setIcon((new ImageIcon(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\" + l.getMap().get(i)[j].map + ".png")))));
+                    }
+                }
+            l.getMap().get(p.getY())[p.getX()].setMapped(false);
+            mapCells.get(p.getY() - 1)[p.getX() - 1]
+                    .setIcon(new ImageIcon(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\map\\player\\" + p.getDir() + ".png"))));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     void mapping(JPanel panel, Player p, Level l) {
         try {
             ArrayList<Room> tomap = new Logic(this).mappable(p, l.getMap());
@@ -296,4 +318,57 @@ Player p;
         }
     }
     MainView getMain(){return this;}
+
+    public void zapiszDoCSV( Path p,Level level,Player player){
+        try{
+            BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8 ) ;
+            CSVFormat csvFileFormat = CSVFormat.DEFAULT;
+            CSVPrinter plik=new CSVPrinter(writer,csvFileFormat);
+           // ResultSetMetaData rsmd = r.getMetaData();
+            for (int i=1;i<=level.getMap().get(0).length-2;i++){
+                plik.print(i);
+            }
+            plik.print("Player");
+            plik.print("Inv");
+            plik.println();
+            String temp="";
+            for (int j=1;j<=level.getMap().get(0).length-2;j++){
+                temp="";
+                temp+=level.getMap().get(1)[j].getType();
+                if(level.getMap().get(1)[j].isMapped()){temp+=":m";}else{temp+=":n";}
+                if(level.getMap().get(1)[j].isKey()) temp+=":k";
+                if(level.getMap().get(1)[j].isDoor()) temp+=":d";
+                if(level.getMap().get(1)[j].isTreasure())temp+=(":i:"+level.getMap().get(1)[j].getContentId());
+                if(level.getMap().get(1)[j].isEnemy())temp+=(":e:"+level.getMap().get(1)[j].getContentId());
+                plik.print(temp);
+            }
+            temp=""+player.getX()+":"+player.getY()+":"+player.getLevel()+":"+player.getHp()+":"+player.getPotion().getCount()+":"+
+                    player.isKey()+":"+player.getHelmet().getId()+":"+player.getArmor().getId()+":"+player.getBoots().getId()+":"+player.getWeapon().getId()+":"+player.getShield().getId();
+            plik.print(temp);
+            temp="";
+            for (int i = 0; i < player.getInv().size(); i++) {
+                temp+=player.getInv().get(i).getId()+":";
+            }
+            plik.print(temp);
+            plik.println();
+            for (int i=2;i<=level.getMap().get(0).length-2;i++){
+                for (int j=1;j<=level.getMap().get(0).length-2;j++){
+                    temp="";
+                    temp+=level.getMap().get(i)[j].getType();
+                    if(level.getMap().get(i)[j].isKey()) temp+=":k";
+                    if(level.getMap().get(i)[j].isDoor()) temp+=":d";
+                    if(level.getMap().get(i)[j].isTreasure())temp+=(":i:"+level.getMap().get(i)[j].getContentId());
+                    if(level.getMap().get(i)[j].isEnemy())temp+=(":e:"+level.getMap().get(i)[j].getContentId());
+                    plik.print(temp);
+                }
+                plik.println();
+            }
+            plik.close();
+            writer.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
 }

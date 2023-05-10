@@ -32,6 +32,10 @@ public class Level {
         }
     }
 
+    public Level() {
+
+    }
+
     public int getStartX() {
         return startX;
     }
