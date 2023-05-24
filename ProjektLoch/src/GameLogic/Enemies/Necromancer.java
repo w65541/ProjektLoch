@@ -9,7 +9,7 @@ import java.util.TimerTask;
 public class Necromancer extends Enemy{
 
     ArrayList<Enemy> team;
-    public Necromancer(int dif,ArrayList<Enemy> t) {
+    public Necromancer(ArrayList<Enemy> t) {
         setHp(5+random.nextInt(dif)+(dif/2));
         setSpeed(10);
         setDef(dif);

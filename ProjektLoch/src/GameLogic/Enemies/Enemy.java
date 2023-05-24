@@ -12,6 +12,15 @@ public abstract class Enemy extends Entity {
 BufferedImage image;//= ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\deadend.png")));
 int enemyId,numOfAttacks=1;
 int[] attackType;
+int dif=1;
+
+    public int getDif() {
+        return dif;
+    }
+
+    public void setDif(int dif) {
+        this.dif = dif;
+    }
 
     public BufferedImage getImage() {
         return image;

@@ -6,7 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class SkeletonShield extends Enemy{
-    public SkeletonShield(int dif) {
+    public SkeletonShield() {
         setHp(10+random.nextInt(dif)+(dif/2));
         setSpeed(8);
         setDef(dif*2);

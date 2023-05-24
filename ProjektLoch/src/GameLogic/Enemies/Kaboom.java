@@ -5,7 +5,7 @@ import GameLogic.Player;
 import java.util.Timer;
 
 public class Kaboom extends Enemy{
-    public Kaboom(int dif) {
+    public Kaboom() {
         setHp(20+random.nextInt(dif)+(dif/2));
         setSpeed(30);
         setDef(0);

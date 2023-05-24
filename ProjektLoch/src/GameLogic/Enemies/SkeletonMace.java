@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class SkeletonMace extends Enemy{
     boolean ready=true;
 
-    public SkeletonMace(int dif) {
+    public SkeletonMace() {
         setHp(8+random.nextInt(dif)+(dif/2));
         setSpeed(10);
         setDef((int) (dif*1.5));

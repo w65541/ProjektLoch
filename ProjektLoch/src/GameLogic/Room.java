@@ -12,6 +12,7 @@ public class Room {
     ArrayList<Direction> access2= new ArrayList<>();
     String map="";
     int x,y,type, contentId;
+    Item item;
     ArrayList<Enemy> enemies;
     public Room(int type, int x, int y) {
         this.type = type;
@@ -58,12 +59,22 @@ public class Room {
         return enemies;
     }
 
-    public void setEnemies(ArrayList<Enemy> enemies) {
+    public void setEnemies(ArrayList<Enemy> enemies, int i) {
         this.enemies = enemies;
+        contentId=i;
     }
 
     public ArrayList<Direction> getAccess2() {
         return access2;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+        contentId=item.getId();
     }
 
     public void setAccess2(ArrayList<Direction> access2) {

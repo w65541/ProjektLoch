@@ -1,11 +1,16 @@
 import GameLogic.*;
 import GameLogic.Player;
 import jdk.jfr.StackTrace;
+import lib.NativeOpenDialogDemo;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -107,15 +112,15 @@ levels.add(new Level(m2));
         Map<Integer,Item> itemList=new HashMap<>();
         loadItems(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\Data\\Items.csv"),itemList);
         System.out.println(itemList.get(1).toString());
-        load(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\test.csv"),levels,itemList);
+        //load(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\test.csv"),levels,itemList);
       /*  for (int i = 0; i < levels.get(0).getMap().size(); i++) {
             for (int j = 0; j < levels.get(0).getMap().get(i).length; j++) {
                 System.out.println(levels.get(0).getMap().get(i)[j].getType());
             }
 
         }*/
-        //JFrame a=new MainView(levels,p,new Backpack(p));
-        //a.setVisible(true);
+        JFrame a=new MainView(levels,p,new Backpack(p),new Loader());
+        a.setVisible(true);
        // dodajZCSV(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv"));
     }
 
@@ -169,9 +174,7 @@ return level;
         level.setStartX(player.getX());
         levels.set(player.getLevel(),level);
             player.setLastLevel(levels.size());
-            MainView a=new MainView(levels,player,new Backpack(player));
-            a.mapRestoration();
-            a.setVisible(true);
+
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -1,6 +1,8 @@
 package GameLogic;
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,7 +41,7 @@ public class MainView extends JFrame {
     private BackgroundPanel backgroundPanel1;
     private BasicBackgroundPanel basicBackgroundPanel1;
     private ArrayList<JLabel[]> mapCells = new ArrayList<>();
-
+private Loader loader;
     public int getN() {
         return n;
     }
@@ -47,15 +49,17 @@ public class MainView extends JFrame {
     public void setN(int n) {
         this.n = n;
     }
-
+MainView mainView;
     int n;
 Player p;
     ArrayList<Level> levels;
     Backpack backpack;Level lev;
-    public MainView(ArrayList<Level> levels,Player player,Backpack backpack) {
+    public MainView(ArrayList<Level> levels,Player player,Backpack backpack,Loader loader) {
         p=player;
+        this.mainView=this;
         this.levels=levels;
         this.backpack=backpack;
+        this.loader=loader;
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300, 700);
@@ -206,7 +210,7 @@ Player p;
             @Override
             public void actionPerformed(ActionEvent e) {
                 ArrayList<Enemy> en = new ArrayList<Enemy>();
-                en.add(new SkeletonSword(1));
+                en.add(new SkeletonSword());
                 //en.add(new SkeletonSword(1));
                 startBattle(en, p, lev.getMap().get(p.getY())[p.getX()]);
             }
@@ -226,10 +230,31 @@ Player p;
                 backpack.setVisible(true);
             }
         });
+
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser = new JFileChooser("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels");
+                FileNameExtensionFilter restrict = new FileNameExtensionFilter("", "csv");
+                chooser.setAcceptAllFileFilterUsed(false);
+                chooser.addChoosableFileFilter(restrict);
+                if (chooser.showOpenDialog(panel) == JFileChooser.APPROVE_OPTION) {
+                    loader.load(Paths.get(chooser.getSelectedFile().getPath()));
+                    mainView.dispose();
+                }
+            }
+        });
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                zapiszDoCSV(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\test.csv"),lev,p);
+                JFileChooser chooser = new JFileChooser("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels");
+                FileNameExtensionFilter restrict = new FileNameExtensionFilter("", "csv");
+                chooser.setAcceptAllFileFilterUsed(false);
+                chooser.addChoosableFileFilter(restrict);
+                chooser.setApproveButtonText("Save");
+                if (chooser.showOpenDialog(panel) == JFileChooser.APPROVE_OPTION) {
+                    save(Paths.get(chooser.getSelectedFile().getPath()+".csv"),lev,player);
+                }
             }
         });
     }
@@ -308,7 +333,7 @@ Player p;
     void nextLevel(MainView mainView){
         p.nextLevel();
         if(p.getLevel()!=p.getLastLevel()){
-        MainView next=new MainView(levels,p,backpack);
+        MainView next=new MainView(levels,p,backpack,loader);
         next.setVisible(true);
         mainView.dispose();
         }else{
@@ -319,7 +344,7 @@ Player p;
     }
     MainView getMain(){return this;}
 
-    public void zapiszDoCSV( Path p,Level level,Player player){
+    public void save( Path p,Level level,Player player){
         try{
             BufferedWriter writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8 ) ;
             CSVFormat csvFileFormat = CSVFormat.DEFAULT;
@@ -355,6 +380,7 @@ Player p;
                 for (int j=1;j<=level.getMap().get(0).length-2;j++){
                     temp="";
                     temp+=level.getMap().get(i)[j].getType();
+                    if(level.getMap().get(i)[j].isMapped()){temp+=":m";}else{temp+=":n";}
                     if(level.getMap().get(i)[j].isKey()) temp+=":k";
                     if(level.getMap().get(i)[j].isDoor()) temp+=":d";
                     if(level.getMap().get(i)[j].isTreasure())temp+=(":i:"+level.getMap().get(i)[j].getContentId());

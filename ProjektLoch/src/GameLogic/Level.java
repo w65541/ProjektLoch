@@ -10,27 +10,7 @@ public class Level {
     public Level(ArrayList<Room[]> map) {
         this.map = map;
     }
-    public Level(ArrayList<Room[]> map,int[][] enemy) {
-        this.map = map;
-        for (int i = 0; i < enemy.length; i++) {
-            enemyGroups.add(new ArrayList<Enemy>());
-            for (int j = 0; j < enemy[i].length; j++) {
-                switch (enemy[i][j]){
-                    case 0:
-                        enemyGroups.get(i).add(new SkeletonSword(dificulty));
-                        break;
-                    case 1:
-                        enemyGroups.get(i).add(new SkeletonShield(dificulty));
-                        break;
-                        case 2:
-                        enemyGroups.get(i).add(new SkeletonMace(dificulty));
-                        break; case 3:
-                        enemyGroups.get(i).add(new Necromancer(dificulty,enemyGroups.get(i)));
-                        break;
-                }
-            }
-        }
-    }
+
 
     public Level() {
 
