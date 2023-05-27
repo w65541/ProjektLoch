@@ -13,17 +13,19 @@ public class Battle extends JFrame{
     private JPanel panel;
     private JButton attackButton;
     private JButton defendButton;
-    private JButton escapeButton;
-    private JProgressBar progressBar1;
-    private JProgressBar progressBar2;
+    private JProgressBar progressBarEnemy;
+    private JProgressBar progressBarPlayer;
     private JProgressBar enemyHp;
+    private JLabel enemyName;
+    private JProgressBar playerHp;
     Timer timer = new Timer();
-    int seconds=0;
+    int seconds=0,bugfix=0;
     int seconds_p=0;
     BattleLogic battle;
     Room room;
     public Battle(Player p, Enemy enemy, MainView mainView, Room r) {
         room=r;
+        enemyName.setText(enemy.getName());
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300,700);
@@ -31,8 +33,9 @@ public class Battle extends JFrame{
         //Enemy enemy=new SkeletonSword(1);
 
         enemyHp.setMaximum(enemy.getHp());
-        progressBar1.setMaximum(enemy.getSpeed());
-        progressBar2.setMaximum(p.getSpeed());
+        playerHp.setMaximum(p.getHp());
+        progressBarEnemy.setMaximum(enemy.getSpeed());
+        progressBarPlayer.setMaximum(p.getSpeed());
         battle=new BattleLogic(p,enemy);
 System.out.println(battle.toString());
 
@@ -70,35 +73,31 @@ System.out.println(battle.toString());
                 battle.playerDefend();
             }
         });
-        escapeButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-            }
-        });
+
     }
     void update(Player p,Enemy e){
         enemyHp.setValue(e.getHp());
         enemyHp.setString(""+e.getHp()+"/"+e.getMaxHP());
-
+        playerHp.setValue(p.getHp());
+        playerHp.setString(""+p.getHp()+"/"+p.getMaxHP());
         if(!e.isActive()) {
-            progressBar1.setMaximum(e.getSpeed());
-            progressBar1.setValue(seconds % e.getSpeed());
+            progressBarEnemy.setMaximum(e.getSpeed());
+            progressBarEnemy.setValue(seconds % e.getSpeed());
         }else {
-            progressBar1.setMaximum(e.getSpeed());
+            progressBarEnemy.setMaximum(e.getSpeed());
             seconds=0;
         }
+
         if(!battle.isPlayerActive()){
-            progressBar2.setValue(seconds_p%p.getSpeed());
+            progressBarPlayer.setValue(seconds_p%p.getSpeed());
         attackButton.setEnabled(false);
             defendButton.setEnabled(false);
-            escapeButton.setEnabled(false);
-            progressBar2.setMaximum(p.getSpeed());
+
+            progressBarPlayer.setMaximum(p.getSpeed());
         }else{
-            progressBar2.setValue(p.getSpeed());
+            progressBarPlayer.setValue(p.getSpeed());
             attackButton.setEnabled(true);
-            defendButton.setEnabled(true);
-            escapeButton.setEnabled(true);
+
             seconds_p=-1;
         }
     }
@@ -108,6 +107,7 @@ System.out.println(battle.toString());
         System.out.println(m.getN());
         if (m.getN()==0){m.setVisible(true);
         room.setEnemies(null, 0);}
+        room.setEnemy(false);
         m.updateHp(p);
         dispose();
 

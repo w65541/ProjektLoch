@@ -40,15 +40,7 @@
           <text value="Label"/>
         </properties>
       </component>
-      <component id="3e8bc" class="javax.swing.JButton" binding="escapeButton" default-binding="true">
-        <constraints>
-          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-        </constraints>
-        <properties>
-          <text value="Escape"/>
-        </properties>
-      </component>
-      <component id="dea46" class="javax.swing.JLabel">
+      <component id="dea46" class="javax.swing.JLabel" binding="enemyName">
         <constraints>
           <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -56,13 +48,13 @@
           <text value="Label"/>
         </properties>
       </component>
-      <component id="7dbb" class="javax.swing.JProgressBar" binding="progressBar1" default-binding="true">
+      <component id="7dbb" class="javax.swing.JProgressBar" binding="progressBarEnemy">
         <constraints>
           <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties/>
       </component>
-      <component id="be2ae" class="javax.swing.JProgressBar" binding="progressBar2" default-binding="true">
+      <component id="be2ae" class="javax.swing.JProgressBar" binding="progressBarPlayer">
         <constraints>
           <grid row="2" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
         </constraints>
@@ -78,11 +70,19 @@
       </component>
       <component id="39e99" class="javax.swing.JLabel" binding="enemyView">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <icon value="images/skull.png"/>
           <text value=""/>
+        </properties>
+      </component>
+      <component id="ba04f" class="javax.swing.JProgressBar" binding="playerHp">
+        <constraints>
+          <grid row="3" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <stringPainted value="true"/>
         </properties>
       </component>
     </children>

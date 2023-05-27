@@ -13,6 +13,10 @@ public class BattleLogic {
     public BattleLogic(Player player, Enemy enemy) {
         this.player = player;
         this.enemy = enemy;
+        int temp=enemy.getDamage();
+                enemy.setDamage(0);
+                enemy.attack(player,timer);
+                enemy.setDamage(temp);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {

@@ -8,7 +8,7 @@ import java.util.TimerTask;
 
 public class Necromancer extends Enemy{
 
-    ArrayList<Enemy> team;
+
     public Necromancer(ArrayList<Enemy> t) {
         setHp(5+random.nextInt(dif)+(dif/2));
         setSpeed(10);
@@ -16,6 +16,7 @@ public class Necromancer extends Enemy{
         setDamage(5+random.nextInt(dif)+(dif/2));
         team=t;
         setNumOfAttacks(2);
+        name="Necromancer";
     }
     @Override
     public void attack(Player player, Timer timer) {
@@ -23,7 +24,13 @@ public class Necromancer extends Enemy{
             switch (random.nextInt(getNumOfAttacks())){
                 case 0:player.getHit(getDamage());break; //zwykły atak
                 case 1://leczenie innych
-                    team.get(random.nextInt(team.size()-1)).heal(getDamage());
+                    while (true){
+                    Enemy temp =team.get(random.nextInt(team.size()));
+                    if(temp.getHp()>0) {
+                        temp.heal(getDamage());
+                    break;
+                    }
+                    }
                     break;}
         }else {
             player.getHit(getDamage());
@@ -36,4 +43,6 @@ public class Necromancer extends Enemy{
             }
         },(getSpeed()-1)*1000);
     }
+
+
 }

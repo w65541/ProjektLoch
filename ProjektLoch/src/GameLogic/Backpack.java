@@ -22,8 +22,9 @@ public class Backpack extends JFrame{
     private JTextPane stats;
     private DefaultListModel<Item> data = new DefaultListModel<>();
     Item active;
-    Item none=new Item(0,0,0,0,"none","none");
+    Item none=new Item("none","none",0,0,0,0,0);
     public Backpack(Player player) {
+
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setSize(1300,700);

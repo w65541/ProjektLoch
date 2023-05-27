@@ -66,7 +66,7 @@ public class Item {
         opis+=name+"\n"+type+"\n";
         if (hp!=0) opis+="Health: +"+hp+" ";
         if (def!=0) opis+="Defense: +"+def+" ";
-        if (def!=0) opis+="Speed: +"+speed+" ";
+        if (speed!=0) opis+="Speed: +"+speed+" ";
         if (damage!=0) opis+="Damage: +"+damage+" ";
         return opis;
     }

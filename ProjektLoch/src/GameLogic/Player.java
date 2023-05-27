@@ -16,6 +16,7 @@ boolean key=false;
         setDamage(bDamage);
         setDef(0);
         setSpeed(5);
+
     }
 
 
@@ -35,7 +36,7 @@ boolean key=false;
     }
 
     public void setHelmet(Item helmet) {
-        if(helmet.type.equals("helmet")) this.helmet = helmet;
+        if(helmet.type.equals("helmet") || helmet.getId()==0) this.helmet = helmet;
     }
 
     public Item getArmor() {
@@ -43,7 +44,7 @@ boolean key=false;
     }
 
     public void setArmor(Item armor) {
-        if(armor.type.equals("armor")) this.armor = armor;
+        if(armor.type.equals("armor")|| armor.getId()==0) this.armor = armor;
     }
 
     public Item getBoots() {
@@ -51,7 +52,7 @@ boolean key=false;
     }
 
     public void setBoots(Item boots) {
-        if(boots.type.equals("boots"))this.boots = boots;
+        if(boots.type.equals("boots")|| boots.getId()==0)this.boots = boots;
     }
 
     public Item getWeapon() {
@@ -59,7 +60,7 @@ boolean key=false;
     }
 
     public void setWeapon(Item weapon) {
-        if(weapon.type.equals("weapon")) this.weapon = weapon;
+        if(weapon.type.equals("weapon")|| weapon.getId()==0) this.weapon = weapon;
     }
 
     public Item getShield() {
@@ -67,7 +68,7 @@ boolean key=false;
     }
 
     public void setShield(Item shield) {
-        if(shield.type.equals("shield")) this.shield = shield;
+        if(shield.type.equals("shield")|| shield.getId()==0) this.shield = shield;
     }
 
     public boolean isActive() {

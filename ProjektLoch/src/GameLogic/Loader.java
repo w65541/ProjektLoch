@@ -19,9 +19,9 @@ public class Loader {
     public Loader(){
         loadItems(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\Data\\Items.csv"));
         loadEnemies(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\Data\\Enemies.csv"));
-        for (int i = 0; i < 3; i++) {
-            levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv")));
-            //levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level"+(i+1)+".csv")));
+        for (int i = 0; i < 2; i++) {
+            //levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv")));
+            levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level"+(i+1)+".csv")));
         }
 
     }
@@ -49,8 +49,8 @@ public class Loader {
                         switch (rooms[1]){
                             case "k":map.get(y)[x+1].setKey(true);break;
                             case "d":map.get(y)[x+1].setDoor(true);break;
-                            case "i":break;
-                            case "e":break;
+                            case "i":map.get(y)[x+1].setTreasure(true); map.get(y)[x+1].setItem(new Item(itemList.get(Integer.parseInt(rooms[2])))); break;
+                            case "e":map.get(y)[x+1].setEnemy(true);map.get(y)[x+1].setEnemies(new ArrayList<>(enemyList.get(Integer.parseInt(rooms[2]))),Integer.parseInt(rooms[2]));break;
                             case "p":level.setStartX(x+1);level.setStartY(y);break;
                         }
                 }
@@ -106,8 +106,8 @@ public class Loader {
                         switch (rooms[2]){
                             case "k":map.get(y)[x+1].setKey(true);break;
                             case "d":map.get(y)[x+1].setDoor(true);break;
-                            case "i":map.get(y)[x+1].setTreasure(true); map.get(y)[x+1].setItem(new Item(itemList.get(Integer.parseInt(rooms[3]))));
-                            case "e":map.get(y)[x+1].setEnemy(true);map.get(y)[x+1].setEnemies(new ArrayList<>(enemyList.get(Integer.parseInt(rooms[3]))),Integer.parseInt(rooms[3]));break;
+                            case "i":map.get(y)[x+1].setTreasure(true); map.get(y)[x+1].setItem(new Item(itemList.get(Integer.parseInt(rooms[2]))));break;
+                            case "e":map.get(y)[x+1].setEnemy(true);map.get(y)[x+1].setEnemies(new ArrayList<>(enemyList.get(Integer.parseInt(rooms[2]))),Integer.parseInt(rooms[2]));break;
                         }
                 }
                 map.get(y)[n+1]=new Room(0,n+1,y);
@@ -155,7 +155,8 @@ public class Loader {
     }
     public void loadItems(Path p){
         try {
-            int i=0;
+            itemList.put(0,new Item("none","none",0,0,0,0,0));
+            int i=1;
             CSVParser plik=CSVParser.parse(p, Charset.defaultCharset(), CSVFormat.DEFAULT.withFirstRecordAsHeader());
             for (CSVRecord record : plik) {
                 itemList.put(i,new Item(record.get("Name"),record.get("Type"),Integer.parseInt(record.get("Hp")),Integer.parseInt(record.get("Speed")),Integer.parseInt(record.get("Damage")),Integer.parseInt(record.get("Defense")),i));
@@ -190,5 +191,17 @@ public class Loader {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public Map<Integer, Item> getItemList() {
+        return itemList;
+    }
+
+    public Map<Integer, ArrayList<Enemy>> getEnemyList() {
+        return enemyList;
+    }
+
+    public ArrayList<Level> getLevels() {
+        return levels;
     }
 }

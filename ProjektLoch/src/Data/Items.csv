@@ -1,0 +1,6 @@
+Name,Type,Hp,Speed,Damage,Defense
+a,helmet,1,0,0,1
+b,armor,1,0,0,0
+b,boots,1,0,0,0
+b,weapon,1,0,3,0
+b,shield,1,0,0,0

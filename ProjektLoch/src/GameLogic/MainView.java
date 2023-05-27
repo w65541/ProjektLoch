@@ -14,6 +14,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+
+import GameLogic.Enemies.Necromancer;
 import lib.BackgroundPanel;
 import GameLogic.Enemies.Enemy;
 import GameLogic.Enemies.SkeletonSword;
@@ -97,7 +99,6 @@ Player p;
         panel.repaint();
         logic.roomRender(roomView, lev.getMap().get(p.getY()-1)[p.getX()], p, lev, stuff);
 
-        p.setHp(5);
         updateHp(p);
         try {
             mapping(mapa, p, lev);
@@ -263,6 +264,7 @@ Player p;
         System.out.println(enemies.size());
         n = enemies.size();
         for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).setTeam(enemies);
             JFrame a = new Battle(player, enemies.get(i), this, r);
             a.setVisible(true);
         }
@@ -323,9 +325,10 @@ Player p;
         if(room.isTreasure()){
             room.setTreasure(false);
             //dodanie rzeczy do ekwipunku
+            player.getInv().add(room.item);
             backpack.update(player);
         }
-        if(room.getEnemies()!=null){
+        if(room.isEnemy()){
             startBattle(room.getEnemies(),player,room);
         }
     }

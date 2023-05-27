@@ -50,7 +50,7 @@ public class Entity {
     }
     public void getHit(int damage){
         this.setHp(this.getHp()+def-damage);
-        this.setHp(this.getHp()-1);
+        if(damage>0)this.setHp(this.getHp()-1);
     }
     public int getX() {
         return x;

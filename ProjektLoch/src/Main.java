@@ -1,4 +1,5 @@
 import GameLogic.*;
+import GameLogic.Menu;
 import GameLogic.Player;
 import jdk.jfr.StackTrace;
 import lib.NativeOpenDialogDemo;
@@ -119,7 +120,8 @@ levels.add(new Level(m2));
             }
 
         }*/
-        JFrame a=new MainView(levels,p,new Backpack(p),new Loader());
+       // JFrame a=new MainView(levels,p,new Backpack(p),new Loader());
+        JFrame a=new Menu();
         a.setVisible(true);
        // dodajZCSV(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv"));
     }
