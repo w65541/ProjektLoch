@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Room {
     //RoomType type;//zmienić na liczbe
 
-    boolean key=false,enemy=false,treasure=false,door=false,mapped=false;
+    boolean key=false,enemy=false,treasure=false,door=false,mapped=false,potion=false;
     ArrayList<Direction> access= new ArrayList<>();
     ArrayList<Direction> access2= new ArrayList<>();
     String map="";
@@ -45,6 +45,14 @@ public class Room {
                 case S: access2.add(Direction.N);break;
             }
         }
+    }
+
+    public boolean isPotion() {
+        return potion;
+    }
+
+    public void setPotion(boolean potion) {
+        this.potion = potion;
     }
 
     public int getContentId() {

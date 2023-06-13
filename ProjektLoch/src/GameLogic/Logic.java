@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class Logic {
@@ -16,20 +18,21 @@ public class Logic {
 
     public Logic(MainView mainView) {
         try {
-            System.out.println(images.size());
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\deadend.png")));//0
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\wall.png")));//1
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\f.png")));//2
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\fr.png")));//3
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\lf.png")));//4
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\lfr.png")));//5
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\lr.png")));//6
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\r.png")));//7
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\l.png")));//8
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\key.png")));//9
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\door.png")));//10
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\enemy.png")));//11
-            images.add(ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\key.png")));
+            String currentDirectory = new File("").getAbsolutePath();
+            images.add(ImageIO.read(new File(currentDirectory+ "\\src\\images\\deadend.png")));//0
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\wall.png")));//1
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\f.png")));//2
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\fr.png")));//3
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\lf.png")));//4
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\lfr.png")));//5
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\lr.png")));//6
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\r.png")));//7
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\l.png")));//8
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\key.png")));//9
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\door.png")));//10
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\enemy.png")));//11
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\treasure.png")));//12
+            images.add(ImageIO.read(new File(currentDirectory+"\\src\\images\\potion.png")));//13
             for (int i = 0; i < images.size(); i++) {
                 images2.add(images.get(i).getScaledInstance(640, 480, Image.SCALE_SMOOTH));
             }
@@ -56,11 +59,15 @@ public class Logic {
             if(r.isKey()) {
                 stuff.setIcon(new ImageIcon(images2.get(9)));
             }
-            else if(r.getEnemies()!=null) {
+            else if(r.isEnemy()) {
                 stuff.setIcon(new ImageIcon(images2.get(11)));
             }
             else if (r.isDoor()) {
                 stuff.setIcon(new ImageIcon(images2.get(10)));
+            }else if (r.isPotion()) {
+                stuff.setIcon(new ImageIcon(images2.get(13)));
+            }else if (r.isTreasure()) {
+                stuff.setIcon(new ImageIcon(images2.get(12)));
             }else {stuff.setIcon(null);}
 
             switch (p.getDir()){

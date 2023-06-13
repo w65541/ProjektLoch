@@ -35,7 +35,7 @@ public class Backpack extends JFrame{
         for (int i = 0; i < player.getInv().size(); i++) {
             data.addElement(player.getInv().get(i));
         }
-        helmet.setText(player.getHelmet().name);
+
 
         helmet.addActionListener(new ActionListener() {
             @Override
@@ -142,7 +142,7 @@ public class Backpack extends JFrame{
         data.addElement(player.getInv().get(player.getInv().size()-1));
     }
     public void updateStats(Player player){
-        stats.setText("MaxHP: "+player.getHp()+"\n"
+        stats.setText("MaxHP: "+player.getMaxHP()+"\n"
                 +"Defense: "+player.getDef()+"\n"
                 +"Damage: "+player.getDamage()+"\n"
                 +"Speed: "+player.getSpeed());

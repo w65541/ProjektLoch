@@ -39,6 +39,7 @@ public class MainView extends JFrame {
     private JPanel mapa;
     private JButton saveButton;
     private JButton loadButton;
+    private JLabel key;
     private JPanel view;
     private BackgroundPanel backgroundPanel1;
     private BasicBackgroundPanel basicBackgroundPanel1;
@@ -67,7 +68,7 @@ Player p;
         setSize(1300, 700);
         Logic logic = new Logic(this);
         lev=levels.get(p.getLevel());
-
+        if(p.isKey()) invkey(this);
         mapa.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         for (int i = 0; i < lev.getMap().size() - 2; i++) {
@@ -207,15 +208,7 @@ Player p;
             }
 
         });
-        waitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                ArrayList<Enemy> en = new ArrayList<Enemy>();
-                en.add(new SkeletonSword());
-                //en.add(new SkeletonSword(1));
-                startBattle(en, p, lev.getMap().get(p.getY())[p.getX()]);
-            }
-        });
+
         heal3Button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -310,26 +303,40 @@ Player p;
             e.printStackTrace();
         }
     }
-
+    void invkey(MainView mainView){
+        try {
+            mainView.key.setIcon(new ImageIcon(ImageIO.read(new File((new File("").getAbsolutePath())+"\\src\\images\\keyinv.png"))));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
     void moveCheck(MainView mainView,Player player,Level level,Backpack backpack) {
         mapping(mapa, player, level);
         Room room=level.getMap().get(player.getY())[player.getX()];
+        mainView.updateHp(p);
         if(room.isKey()){
             room.setKey(false);
             player.setKey(true);
+            invkey(mainView);
+            return;
         }
         if(room.isDoor() && player.isKey()){
             //czy ma przejść do następnego poziomu
-            nextLevel(mainView);
+            p.setKey(false);nextLevel(mainView);return;
         }
         if(room.isTreasure()){
             room.setTreasure(false);
             //dodanie rzeczy do ekwipunku
             player.getInv().add(room.item);
-            backpack.update(player);
+            backpack.update(player);return;
         }
         if(room.isEnemy()){
-            startBattle(room.getEnemies(),player,room);
+            startBattle(room.getEnemies(),player,room);return;
+        }
+        if(room.isPotion()){
+            player.getPotion().add();
+            room.setPotion(false);
+            mainView.heal3Button.setText("Heal("+player.potion.getCount()+")");return;
         }
     }
 

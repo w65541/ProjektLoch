@@ -73,7 +73,7 @@ public class Item {
 
     @Override
     public String toString() {
-        return ""+ name + '\t' + type;
+        return ""+ name + " " + type;
     }
 
     public int getHp() {

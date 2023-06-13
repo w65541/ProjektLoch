@@ -18,7 +18,6 @@ public class Menu extends JFrame{
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300, 700);
-        System.out.println("loader "+loader.getLevels().size());
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

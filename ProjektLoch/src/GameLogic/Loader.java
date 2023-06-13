@@ -50,6 +50,7 @@ public class Loader {
                             case "k":map.get(y)[x+1].setKey(true);break;
                             case "d":map.get(y)[x+1].setDoor(true);break;
                             case "i":map.get(y)[x+1].setTreasure(true); map.get(y)[x+1].setItem(new Item(itemList.get(Integer.parseInt(rooms[2])))); break;
+                            case "h":map.get(y)[x+1].setPotion(true); map.get(y)[x+1].setPotion(true); break;
                             case "e":map.get(y)[x+1].setEnemy(true);map.get(y)[x+1].setEnemies(new ArrayList<>(enemyList.get(Integer.parseInt(rooms[2]))),Integer.parseInt(rooms[2]));break;
                             case "p":level.setStartX(x+1);level.setStartY(y);break;
                         }
@@ -108,6 +109,7 @@ public class Loader {
                             case "d":map.get(y)[x+1].setDoor(true);break;
                             case "i":map.get(y)[x+1].setTreasure(true); map.get(y)[x+1].setItem(new Item(itemList.get(Integer.parseInt(rooms[2]))));break;
                             case "e":map.get(y)[x+1].setEnemy(true);map.get(y)[x+1].setEnemies(new ArrayList<>(enemyList.get(Integer.parseInt(rooms[2]))),Integer.parseInt(rooms[2]));break;
+                            case "h":map.get(y)[x+1].setPotion(true); map.get(y)[x+1].setPotion(true); break;
                         }
                 }
                 map.get(y)[n+1]=new Room(0,n+1,y);
