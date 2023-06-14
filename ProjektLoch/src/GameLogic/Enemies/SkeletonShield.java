@@ -5,6 +5,9 @@ import GameLogic.Player;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Szkielet z możliwością obrony
+ */
 public class SkeletonShield extends Enemy{
     public SkeletonShield() {
         setHp(10+random.nextInt(dif)+(dif/2));

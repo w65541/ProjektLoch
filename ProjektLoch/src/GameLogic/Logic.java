@@ -12,6 +12,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * klasa posiadająca zbiór funkcji obsługujących klasę MainView
+ * i wczytująca grafikę
+ */
 public class Logic {
     ArrayList<BufferedImage> images=new ArrayList<>();
     public ArrayList<Image> images2=new ArrayList<>();
@@ -44,6 +48,14 @@ public class Logic {
 
     }
 
+    /**
+     * Funkcja wybiera który widok korytarza ma być widoczny
+     * @param l panel na którym bedzie grafika
+     * @param r pokój na który gracz patrzy
+     * @param p gracz
+     * @param lev poziom
+     * @param stuff miejce gdzie będzie grafika obiektu jeśli jakiś sie znajduje w pokoju
+     */
     public void roomRender(BasicBackgroundPanel l, Room r, Player p, Level lev,JLabel stuff){
 
         if (isAccesible(lev.getMap().get(p.getY())[p.getX()],r)){
@@ -129,15 +141,39 @@ public class Logic {
         l.setIcon( (images2.get(1)));
         stuff.setIcon(null);
     }
+
+    /**
+     * obrót w prawo
+     * parametry są przekazywane do roomRender
+     * @param p
+     * @param r
+     * @param l
+     * @param stuff
+     */
     public void turnRight(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         p.setView((p.getView()+1)%4);
         roomRender(l,viewRoom(p,r),p,r,stuff);
 }
+    /**
+     * obrót w lewo
+     * parametry są przekazywane do roomRender
+     * @param p
+     * @param r
+     * @param l
+     * @param stuff
+     */
     public void turnLeft(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         if(p.getView()==0){p.setView(3);
         }else{p.setView((p.getView()-1)%4);}
         roomRender(l,viewRoom(p,r),p,r,stuff);
     }
+
+    /**
+     * Sprawdza czy między danymi 2 pokojami jest przejście
+     * @param r1 pokój 1
+     * @param r2 pokój 2
+     * @return
+     */
     boolean isAccesible(Room r1,Room r2){
         //System.out.println(r1.getAccess2().toString()+""+r2.getAccess().toString());
         for (int i = 0; i < r1.getAccess2().size(); i++) {
@@ -148,6 +184,13 @@ public class Logic {
         }
         return false;
     }
+
+    /**
+     *
+     * @param p gracz
+     * @param rooms pokoje sąsiadujące z graczem
+     * @return Lista pokoji które należy dodać do mapy
+     */
     public ArrayList<Room> mappable(Player p,ArrayList<Room[]> rooms){
         ArrayList<Room> tomap=new ArrayList<>();
         if(isAccesible(rooms.get(p.getY())[p.getX()],rooms.get(p.getY()-1)[p.getX()]) && !rooms.get(p.getY()-1)[p.getX()].isMapped()){
@@ -168,6 +211,15 @@ public class Logic {
         }
         return tomap;
     }
+
+    /**
+     * Zmienia pozycje gracza o 1 na północ
+     * parametry są przekazywane do roomRender
+     * @param p
+     * @param r
+     * @param l
+     * @param stuff
+     */
     public void moveNorth(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             System.out.println(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()-1)[p.getX()]));
@@ -180,7 +232,14 @@ public class Logic {
             e.printStackTrace();
         }
 }
-
+    /**
+     * Zmienia pozycje gracza o 1 na wschód
+     * parametry są przekazywane do roomRender
+     * @param p
+     * @param r
+     * @param l
+     * @param stuff
+     */
     public void moveEast(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY())[p.getX()+1])){
@@ -192,6 +251,14 @@ public class Logic {
             e.printStackTrace();
         }
     }
+    /**
+     * Zmienia pozycje gracza o 1 na zachód
+     * parametry są przekazywane do roomRender
+     * @param p
+     * @param r
+     * @param l
+     * @param stuff
+     */
     public void moveWest(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY())[p.getX()-1])){
@@ -203,6 +270,14 @@ public class Logic {
             e.printStackTrace();
         }
     }
+    /**
+     * Zmienia pozycje gracza o 1 na południe
+     * parametry są przekazywane do roomRender
+     * @param p
+     * @param r
+     * @param l
+     * @param stuff
+     */
     public void moveSouth(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()+1)[p.getX()])){
@@ -215,8 +290,13 @@ public class Logic {
         }
     }
 
-
-Room viewRoom(Player p,Level l){
+    /**
+     *
+     * @param p gracz
+     * @param l poziom
+     * @return pokój na który gracz się patrzy
+     */
+    Room viewRoom(Player p,Level l){
         //if(p.getY()-1>=0 && p.getX()-1>=0 && p.getY()+1<=l.getMap().size() && p.getX()+1<=l.getMap().get(p.getY()).length){
     try{
         switch (p.getView()){

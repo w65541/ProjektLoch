@@ -29,17 +29,15 @@ public class Battle extends JFrame{
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1300,700);
-        //Player p=new Player();
-        //Enemy enemy=new SkeletonSword(1);
-
         enemyHp.setMaximum(enemy.getHp());
         playerHp.setMaximum(p.getHp());
         progressBarEnemy.setMaximum(enemy.getSpeed());
         progressBarPlayer.setMaximum(p.getSpeed());
         battle=new BattleLogic(p,enemy);
-System.out.println(battle.toString());
 
-
+/**
+ * zegar
+ */
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -47,7 +45,9 @@ System.out.println(battle.toString());
                 seconds_p++;
             }
         },1000,1000); //zegar
-
+/**
+ * sprawdza czy ktoś w bitwie umarł
+ */
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -55,7 +55,13 @@ System.out.println(battle.toString());
                 if(enemy.getHp()<1) {
                     win(enemy, mainView,p);
                     timer.cancel();
-                }}
+                    return;
+                }
+                if(p.getHp()<1){
+                    lose();
+                    timer.cancel();
+                }
+            }
             },1,1); //update
 
 
@@ -75,6 +81,12 @@ System.out.println(battle.toString());
         });
 
     }
+
+    /**
+     * Aktualizuje paski akcji i życie gracza i wroga
+     * @param p gracz
+     * @param e wróg
+     */
     void update(Player p,Enemy e){
         enemyHp.setValue(e.getHp());
         enemyHp.setString(""+e.getHp()+"/"+e.getMaxHP());
@@ -102,6 +114,12 @@ System.out.println(battle.toString());
         }
     }
 
+    /**
+     * Funkcja kończąca bitwę
+     * @param e wróg
+     * @param m mainView
+     * @param p gracz
+     */
     void win(Enemy e,MainView m,Player p){
         m.setN(m.getN()-1);
         System.out.println(m.getN());
@@ -110,6 +128,8 @@ System.out.println(battle.toString());
         room.setEnemy(false);
         m.updateHp(p);
         dispose();
+    }
+    void lose(){
 
     }
 }

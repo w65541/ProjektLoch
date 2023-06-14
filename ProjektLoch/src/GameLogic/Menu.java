@@ -24,25 +24,26 @@ public class Menu extends JFrame{
             menu.dispose();
             }
         });
+        /**
+         * Zaczyna nową grę, start od 1 poziomu i gracz zaczyna z domyślnym ekwipunkiem
+         */
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            Player player=new Player();
-            Item none=new Item("none","none",0,0,0,0,0);
-                player.setHelmet(new Item(none));
-                player.setArmor(new Item(none));
-                player.setBoots(new Item(none));
-                player.setWeapon(new Item(none));
-                player.setShield(new Item(none));
+                Player player=new Player();
                 JFrame a=new MainView(loader.getLevels(),player,new Backpack(player),new Loader());
+                a.setLocationRelativeTo(null);
                 a.setVisible(true);
                 menu.dispose();
             }
         });
+        /**
+         * Wczytywanie zapisanego stanu gry
+         */
         loadGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JFileChooser chooser = new JFileChooser("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels");
+                JFileChooser chooser = new JFileChooser("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\Saves");
                 FileNameExtensionFilter restrict = new FileNameExtensionFilter("", "csv");
                 chooser.setAcceptAllFileFilterUsed(false);
                 chooser.addChoosableFileFilter(restrict);

@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import GameLogic.Enemies.*;
+
+/**
+ * Zestaw funkcji do obsługi bitwy
+ */
 public class BattleLogic {
     Timer timer = new Timer();
     Player player;
@@ -17,11 +21,14 @@ public class BattleLogic {
                 enemy.setDamage(0);
                 enemy.attack(player,timer);
                 enemy.setDamage(temp);
+        /**
+         * Timer odpowiada za atakowanie przeciwnika
+         */
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 if(enemy.getHp()<=0) {timer.cancel();}
-                if(enemy.isActive()){System.out.println("atak "+enemy.isActive());enemyAttack();}
+                if(enemy.isActive()){enemyAttack();}
 
 
             }
@@ -32,6 +39,9 @@ public class BattleLogic {
         enemy.attack(player, timer);
     }
 
+    /**
+     * Atak gracza
+     */
     void playerAttack(){
         enemy.getHit(player.getDamage());
         player.setSpeed(5);
@@ -45,6 +55,10 @@ public class BattleLogic {
             }
         },player.getSpeed()*1000);
     }
+
+    /**
+     * Obrona gracza, podwaja się jego obrona, czas na kolejna akcję jest równy połowy
+     */
     void playerDefend(){
         player.setDef(player.getDef()*2);
         player.setSpeed(player.getSpeed()/2);

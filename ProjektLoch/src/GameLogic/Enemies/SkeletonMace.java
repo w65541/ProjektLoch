@@ -5,6 +5,9 @@ import GameLogic.Player;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Szkielet z ładowanym silnym atakiem
+ */
 public class SkeletonMace extends Enemy{
     boolean ready=true;
 

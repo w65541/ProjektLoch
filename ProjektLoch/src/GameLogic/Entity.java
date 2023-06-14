@@ -1,5 +1,9 @@
 package GameLogic;
 import java.util.Random;
+
+/**
+ * Klasa bazowa dla gracza i [rzeciwników
+ */
 public class Entity {
     int x,y,hp=10,speed=2,def=0,damage=1,maxHP=10;
     boolean active=true;
@@ -20,18 +24,16 @@ public class Entity {
         this.active = active;
     }
 
-    boolean dead=false;
+
     public int getSpeed() {
         return speed;
     }
-    public void kill(){dead=true;}
+    public void kill(){hp=0;}
     public int getDef() {
         return def;
     }
     public Random random=new Random();
-    public boolean isDead() {
-        return dead;
-    }
+
 
     public void setDef(int def) {
         this.def = def;
@@ -48,6 +50,11 @@ public class Entity {
     public void setSpeed(int speed) {
         this.speed = speed;
     }
+
+    /**
+     * Byt traci życie równe obrażenia-obrona
+     * @param damage obrażenia
+     */
     public void getHit(int damage){
         this.setHp(this.getHp()+def-damage);
         if(damage>0)this.setHp(this.getHp()-1);
@@ -75,6 +82,11 @@ public class Entity {
     public void setHp(int hp) {
         this.hp = hp;
     }
+
+    /**
+     * Leczy byt
+     * @param i ilość życia do uleczenia
+     */
     public void heal(int i){
         setHp(getHp()+i);
         if(getHp()>getMaxHP()) setHp(getMaxHP());

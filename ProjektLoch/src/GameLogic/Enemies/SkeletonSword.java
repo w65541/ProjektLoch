@@ -5,6 +5,9 @@ import GameLogic.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Standardowy przeciwnik
+ */
 public class SkeletonSword extends Enemy{
     public SkeletonSword() {
         setHp(5+random.nextInt(dif)+(dif/2));

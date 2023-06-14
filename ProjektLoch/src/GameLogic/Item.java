@@ -4,6 +4,9 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Klasa Reprezentująca przedmioty, przechowuje ich atrybuty
+ */
 public class Item {
     int hp,speed,damage,def,num,id;
     Map<Integer, String > types;
@@ -61,6 +64,10 @@ public class Item {
         this.id = id;
     }
 
+    /**
+     *
+     * @return sformatowane atrybuty
+     */
     String opis(){
         String opis="";
         opis+=name+"\n"+type+"\n";

@@ -1,5 +1,8 @@
 package GameLogic;
 
+/**
+ * Klasa reprezentująca mikstury leczenia
+ */
 public class Potion{
 
     int count=3;

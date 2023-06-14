@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * powolny i leczy sojuszników
+ */
 public class Necromancer extends Enemy{
 
 

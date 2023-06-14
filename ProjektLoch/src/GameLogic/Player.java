@@ -2,6 +2,9 @@ package GameLogic;
 
 import java.util.ArrayList;
 
+/**
+ * Klasa Player reprezentuje gracza, przetrzymuje jego atrybuty i flagi
+ */
 public class Player extends Entity{
     int view;
      int bHp=10,bSpeed=5,bDamage=1,level=0,lastLevel;
@@ -9,19 +12,26 @@ public class Player extends Entity{
     Direction dir;
     Item helmet,armor,boots, weapon,shield;
     Potion potion=new Potion();
-boolean key=false;
+    boolean key=false;
+    boolean active=true;
+
     public Player() {
         setHp(bHp);
         setMaxHP(bHp);
         setDamage(bDamage);
         setDef(0);
         setSpeed(5);
-
+        Item none=new Item("none","none",0,0,0,0,0);
+        this.setHelmet(new Item(none));
+        this.setArmor(new Item(none));
+        this.setBoots(new Item(none));
+        this.setWeapon(new Item(none));
+        this.setShield(new Item(none));
     }
 
 
 
-    boolean active=true;
+
 
     public boolean isKey() {
         return key;
@@ -99,6 +109,10 @@ public void nextLevel(){level++;}
         this.lastLevel = lastLevel;
     }
 
+    /**
+     * Ustawienie kierunku patrzenia gracza
+     * @param view
+     */
     public void setView(int view) {
         this.view = view;
         switch (view){
@@ -117,6 +131,11 @@ public void nextLevel(){level++;}
         this.dir = dir;
     }
 
+    /**
+     * Zakłada przedmiot i zwraca poprzedni założony
+     * @param item nowy
+     * @return item stary
+     */
     public Item equip(Item item){
         Item temp;
         switch (item.type){
@@ -148,6 +167,10 @@ public void nextLevel(){level++;}
         }
         return null;
     }
+
+    /**
+     * Aktualizuje atrybuty gracza
+     */
     void updateStats(){
         setDef(helmet.getDef()+armor.getDef()+boots.getDef()+weapon.getDef()+shield.getDef());
         setMaxHP(bHp+helmet.getHp()+armor.getHp()+boots.getHp()+weapon.getHp()+shield.getHp());

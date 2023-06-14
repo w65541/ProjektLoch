@@ -5,6 +5,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -12,19 +13,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Klasa wczytująca i przetrzymująca dane
+ */
 public class Loader {
     Map<Integer,Item> itemList=new HashMap<>();
     Map<Integer,ArrayList<Enemy>> enemyList=new HashMap<>();
     ArrayList<Level> levels=new ArrayList<>();
     public Loader(){
-        loadItems(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\Data\\Items.csv"));
-        loadEnemies(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\Data\\Enemies.csv"));
+        String currentDirectory = new File("").getAbsolutePath();
+        loadItems(Paths.get(currentDirectory+"\\src\\Data\\Items.csv"));
+        loadEnemies(Paths.get(currentDirectory+"\\src\\Data\\Enemies.csv"));
         for (int i = 0; i < 2; i++) {
             //levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv")));
-            levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level"+(i+1)+".csv")));
+            levels.add(loadLevels(Paths.get(currentDirectory+"\\src\\levels\\Level"+(i+1)+".csv")));
         }
 
     }
+
+    /**
+     *
+     * @param p ścieżka do pliku
+     * @return wczytany poziom
+     */
     public  Level loadLevels(Path p){
         try {
             int y=1;
@@ -68,6 +79,11 @@ public class Loader {
             e.printStackTrace();
         }return null;
     }
+
+    /**
+     * wczytuje stan gry z pliku
+     * @param p ścieżka do pliku
+     */
     public  void load(Path p){
         try {
             Player player=wczytajGracza(p);
@@ -83,6 +99,12 @@ public class Loader {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Wczytywanie stanu poziomu z pliku
+     * @param p ścieżka do pliku
+     * @return mapa poziomu
+     */
     public  ArrayList<Room[]> wczytajLevel(Path p){
         try {
             int y=1;
@@ -124,6 +146,12 @@ public class Loader {
             e.printStackTrace();
         }return null;
     }
+
+    /**
+     * Wczytuje zapisany stan gracza
+     * @param p ścieżka do pliku
+     * @return stan gracza z pliku
+     */
     public  Player wczytajGracza(Path p){
         try {
             Player player=new Player();
@@ -155,6 +183,11 @@ public class Loader {
             e.printStackTrace();
         }return null;
     }
+
+    /**
+     * Wczytuje i tworzy przedmioty na bazie pliku Items.csv
+     * @param p ścieżka do pliku
+     */
     public void loadItems(Path p){
         try {
             itemList.put(0,new Item("none","none",0,0,0,0,0));
@@ -168,6 +201,11 @@ public class Loader {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Wczytuje grupy przeciwnkiów z pliku Enemies.csv
+     * @param p ścieżka do pliku
+     */
     public void loadEnemies(Path p){
         try {
             int i=1;

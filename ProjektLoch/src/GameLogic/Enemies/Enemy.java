@@ -9,8 +9,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Timer;
 
+/**
+ * Klasa bazowa dla przeciwników
+ */
 public abstract class Enemy extends Entity {
-BufferedImage image;//= ImageIO.read(new File("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\images\\deadend.png")));
+BufferedImage image;
 int enemyId,numOfAttacks=1;
 int[] attackType;
 int dif=1;

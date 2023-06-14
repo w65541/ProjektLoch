@@ -4,9 +4,10 @@ import GameLogic.Enemies.Enemy;
 
 import java.util.ArrayList;
 
+/**
+ * Klasa reprezentująca pokoje w lochu, przechowuje ich atrybuty, flagi i zawartość
+ */
 public class Room {
-    //RoomType type;//zmienić na liczbe
-
     boolean key=false,enemy=false,treasure=false,door=false,mapped=false,potion=false;
     ArrayList<Direction> access= new ArrayList<>();
     ArrayList<Direction> access2= new ArrayList<>();

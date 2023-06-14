@@ -4,6 +4,9 @@ import GameLogic.Player;
 
 import java.util.Timer;
 
+/**
+ * Mało życia i atakuje tylko raz ale mocno
+ */
 public class Kaboom extends Enemy{
     public Kaboom() {
         setHp(20+random.nextInt(dif)+(dif/2));

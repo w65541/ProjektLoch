@@ -7,9 +7,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;import java.awt.event.MouseAdapter;
 
+/**
+ * Widok odpowiadający i obsługujący ekwipunek gracza
+ */
 public class Backpack extends JFrame{
     private JPanel panel;
-    private JTable table1;
     private JButton helmet;
     private JButton armor;
     private JButton boots;
@@ -23,6 +25,8 @@ public class Backpack extends JFrame{
     private DefaultListModel<Item> data = new DefaultListModel<>();
     Item active;
     Item none=new Item("none","none",0,0,0,0,0);
+
+
     public Backpack(Player player) {
 
         this.setContentPane(this.panel);
@@ -61,6 +65,9 @@ public class Backpack extends JFrame{
                 use.setText("Equip");
             }}
         });
+        /**
+         * Zakłada lub ściąga wybrany przedmiot w zależności od kontekstu
+         */
         use.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,6 +81,9 @@ public class Backpack extends JFrame{
                 }updateStats(player);
             }
         });
+        /**
+         * niszczy przedmiot
+         */
         drop.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,9 +148,19 @@ public class Backpack extends JFrame{
             }
         });
     panel.addMouseListener(new MouseAdapter() { } );}
+
+    /**
+     * Aktualizuje liste przedmiotów
+     * @param player gracz
+     */
     public void update(Player player){
         data.addElement(player.getInv().get(player.getInv().size()-1));
     }
+
+    /**
+     * Aktualizuje widoczne atrybuty gracza
+     * @param player
+     */
     public void updateStats(Player player){
         stats.setText("MaxHP: "+player.getMaxHP()+"\n"
                 +"Defense: "+player.getDef()+"\n"
