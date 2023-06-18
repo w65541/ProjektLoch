@@ -20,6 +20,7 @@ public class Necromancer extends Enemy{
         team=t;
         setNumOfAttacks(2);
         name="Necromancer";
+        enemyId=4;
     }
     @Override
     public void attack(Player player, Timer timer) {

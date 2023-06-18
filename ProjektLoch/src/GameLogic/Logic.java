@@ -175,13 +175,15 @@ public class Logic {
      * @return
      */
     boolean isAccesible(Room r1,Room r2){
-        //System.out.println(r1.getAccess2().toString()+""+r2.getAccess().toString());
-        for (int i = 0; i < r1.getAccess2().size(); i++) {
-            if(r2.getAccess().contains(r1.getAccess2().get(i))) return true;
-        }
-        for (int i = 0; i < r2.getAccess2().size(); i++) {
-            if(r1.getAccess().contains(r2.getAccess2().get(i))) return true;
-        }
+        if(r1.getType()==0 || r2.getType()==0) return false;
+        int x,y;
+        x=r1.getX()-r2.getX();
+        y=r1.getY()-r2.getY();
+        System.out.println("x "+x+" y "+y);
+        if(x>0 && r1.getAccess().contains(Direction.W) && r2.getAccess().contains(Direction.E)) return true;
+        if(x<0 && r1.getAccess().contains(Direction.E) && r2.getAccess().contains(Direction.W)) return true;
+        if(y>0 && r1.getAccess().contains(Direction.N) && r2.getAccess().contains(Direction.S)) return true;
+        if(y<0 && r1.getAccess().contains(Direction.S) && r2.getAccess().contains(Direction.N)) return true;
         return false;
     }
 

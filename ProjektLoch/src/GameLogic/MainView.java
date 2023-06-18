@@ -280,11 +280,13 @@ Player p;
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         for (int i = 0; i < enemies.size(); i++) {
             enemies.get(i).setTeam(enemies);
-            JFrame a = new Battle(player, enemies.get(i), this, r);
+            Battle a = new Battle(player, enemies.get(i), this, r);
+            a.enemyView.setIcon(new ImageIcon(loader.getEnemyImage().get(enemies.get(i).getEnemyId())));
             a.setLocationRelativeTo(null);
-            switch (i){
+            if(enemies.size()>1){switch (i){
                 case 0:
                     a.setLocation(0, 0);
+
                     break;
                 case 1:
                     a.setLocation(screenSize.width - a.getWidth(), 0);
@@ -295,7 +297,7 @@ Player p;
                 case 3:
                     a.setLocation(screenSize.width - a.getWidth(), screenSize.height - a.getHeight());
                     break;
-            }
+            }}
             a.setVisible(true);
         }
         setVisible(false);
@@ -363,7 +365,7 @@ Player p;
     }
 
     /**
-     * Ładuje i ustawia ikonę klucza
+     * Wczytuje i ustawia ikone klucza
      * @param mainView
      */
     void invkey(MainView mainView){
@@ -508,5 +510,16 @@ Player p;
         }
     }
 
-
+    /**
+     * Funkcja kończąca grę w razie śmierci gracza
+     */
+    boolean end=true;
+    public void lose() {
+    if(end){
+        end=false;
+        LoseScreen next=new LoseScreen();
+        next.setLocationRelativeTo(null);
+        next.setVisible(true);
+        mainView.dispose();
+    }}
 }

@@ -15,6 +15,7 @@ public class SkeletonShield extends Enemy{
         setDef(dif*2);
         setDamage(2+random.nextInt(dif)+(dif/2));
         setNumOfAttacks(2);
+        enemyId=2;name="Skeleton";
     }
 
     @Override
@@ -29,7 +30,7 @@ public class SkeletonShield extends Enemy{
                 player.getHit(getDamage());
                 break;
             case 1:
-                setDef(getDef()*2);
+                setDef(dif*2);
                 setSpeed(4);
             ;break;
         }

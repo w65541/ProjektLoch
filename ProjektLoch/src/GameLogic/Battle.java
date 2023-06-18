@@ -9,7 +9,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class Battle extends JFrame{
-    private JLabel enemyView;
+    public JLabel enemyView;
     private JPanel panel;
     private JButton attackButton;
     private JButton defendButton;
@@ -26,9 +26,10 @@ public class Battle extends JFrame{
     public Battle(Player p, Enemy enemy, MainView mainView, Room r) {
         room=r;
         enemyName.setText(enemy.getName());
+
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1300,700);
+        setSize(500,500);
         enemyHp.setMaximum(enemy.getHp());
         playerHp.setMaximum(p.getHp());
         progressBarEnemy.setMaximum(enemy.getSpeed());
@@ -58,7 +59,7 @@ public class Battle extends JFrame{
                     return;
                 }
                 if(p.getHp()<1){
-                    lose();
+                    lose(mainView);
                     timer.cancel();
                 }
             }
@@ -129,7 +130,8 @@ public class Battle extends JFrame{
         m.updateHp(p);
         dispose();
     }
-    void lose(){
-
+    void lose(MainView m){
+        m.lose();
+        dispose();
     }
 }

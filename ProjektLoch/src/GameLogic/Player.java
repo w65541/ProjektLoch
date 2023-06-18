@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class Player extends Entity{
     int view;
-     int bHp=10,bSpeed=5,bDamage=1,level=0,lastLevel;
+     int bHp=10,bSpeed=5,bDamage=1,level=0,lastLevel=3;
     ArrayList<Item> inv=new ArrayList<>();
     Direction dir;
     Item helmet,armor,boots, weapon,shield;

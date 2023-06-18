@@ -17,6 +17,7 @@ public class SkeletonMace extends Enemy{
         setDef((int) (dif*1.5));
         setDamage(5+random.nextInt(dif)+(dif/2));
         setNumOfAttacks(2);
+        enemyId=3;name="Skeleton";
     }
 
     @Override

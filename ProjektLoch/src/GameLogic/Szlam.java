@@ -11,7 +11,7 @@ public class Szlam extends JFrame{
     public Szlam() {
         this.setContentPane(this.panel);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(1300,700);
+        setSize(2000,2000);
         setLocationRelativeTo(null);
         setVisible(true);
         button1.addActionListener(new ActionListener() {

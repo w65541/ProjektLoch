@@ -13,6 +13,8 @@ public class Kaboom extends Enemy{
         setSpeed(30);
         setDef(0);
         setDamage(10+dif);
+        enemyId=6;
+        name="Kaboom";
     }
 
     @Override

@@ -15,6 +15,7 @@ public class SkeletonSword extends Enemy{
         setDef(dif);
         setDamage(3+random.nextInt(dif)+(dif/2));
         name="Skeleton";
+        enemyId=1;
     }
 
     @Override

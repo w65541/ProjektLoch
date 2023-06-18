@@ -5,6 +5,8 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
@@ -19,12 +21,13 @@ import java.util.Map;
 public class Loader {
     Map<Integer,Item> itemList=new HashMap<>();
     Map<Integer,ArrayList<Enemy>> enemyList=new HashMap<>();
+    Map<Integer, Image> enemyImage=new HashMap<>();
     ArrayList<Level> levels=new ArrayList<>();
     public Loader(){
         String currentDirectory = new File("").getAbsolutePath();
         loadItems(Paths.get(currentDirectory+"\\src\\Data\\Items.csv"));
         loadEnemies(Paths.get(currentDirectory+"\\src\\Data\\Enemies.csv"));
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             //levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv")));
             levels.add(loadLevels(Paths.get(currentDirectory+"\\src\\levels\\Level"+(i+1)+".csv")));
         }
@@ -209,6 +212,13 @@ public class Loader {
     public void loadEnemies(Path p){
         try {
             int i=1;
+            String currentDirectory = new File("").getAbsolutePath();
+            enemyImage.put(1, ImageIO.read(new File(currentDirectory+ "\\src\\images\\enemies\\Sword.png")));
+            enemyImage.put(2, ImageIO.read(new File(currentDirectory+ "\\src\\images\\enemies\\Shield.png")));
+            enemyImage.put(3, ImageIO.read(new File(currentDirectory+ "\\src\\images\\enemies\\Mace.png")));
+            enemyImage.put(4, ImageIO.read(new File(currentDirectory+ "\\src\\images\\enemies\\Necro.png")));
+            enemyImage.put(5, ImageIO.read(new File(currentDirectory+ "\\src\\images\\enemies\\Slime.png")));
+            enemyImage.put(6, ImageIO.read(new File(currentDirectory+ "\\src\\images\\enemies\\Boom.png")));
             CSVParser plik=CSVParser.parse(p, Charset.defaultCharset(), CSVFormat.DEFAULT.withFirstRecordAsHeader());
             for (CSVRecord record : plik) {
                 String temp=record.get("Group");
@@ -243,5 +253,9 @@ public class Loader {
 
     public ArrayList<Level> getLevels() {
         return levels;
+    }
+
+    public Map<Integer, Image> getEnemyImage() {
+        return enemyImage;
     }
 }
