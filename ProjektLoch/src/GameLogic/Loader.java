@@ -6,6 +6,7 @@ import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.nio.charset.Charset;
@@ -22,6 +23,8 @@ public class Loader {
     Map<Integer,Item> itemList=new HashMap<>();
     Map<Integer,ArrayList<Enemy>> enemyList=new HashMap<>();
     Map<Integer, Image> enemyImage=new HashMap<>();
+    Map<String, ImageIcon> mapIcons=new HashMap<>();
+    Map<String, ImageIcon> playerIcons=new HashMap<>();
     ArrayList<Level> levels=new ArrayList<>();
     public Loader(){
         String currentDirectory = new File("").getAbsolutePath();
@@ -31,7 +34,37 @@ public class Loader {
             //levels.add(loadLevels(Paths.get("C:\\Users\\HP\\Documents\\JAWA\\szkolenietechniczne1\\Projekt-szkolenie-techniczne\\ProjektLoch\\src\\levels\\Level1.csv")));
             levels.add(loadLevels(Paths.get(currentDirectory+"\\src\\levels\\Level"+(i+1)+".csv")));
         }
+        try{
+            //wczytywanie grafik do mapy
+            mapIcons.put("N" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "N" + ".png"))));
+            mapIcons.put("NW" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "NW" + ".png"))));
+            mapIcons.put("NE" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "NE" + ".png"))));
+            mapIcons.put("NWE" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "NWE" + ".png"))));
+            mapIcons.put("NWES" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "NWES" + ".png"))));
+            mapIcons.put("NES" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "NES" + ".png"))));
+            mapIcons.put("NS" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "NS" + ".png"))));
+            mapIcons.put("NWS" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "NWS" + ".png"))));
+            mapIcons.put("S" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "S" + ".png"))));
+            mapIcons.put("ES" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "ES" + ".png"))));
+            mapIcons.put("WS" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "WS" + ".png"))));
+            mapIcons.put("WES" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "WES" + ".png"))));
+            mapIcons.put("WE" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "WE" + ".png"))));
+            mapIcons.put("E" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "E" + ".png"))));
+            mapIcons.put("W" ,new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\" + "W" + ".png"))));
 
+            playerIcons.put("N",new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\player\\" + "N" + ".png"))));
+            playerIcons.put("W",new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\player\\" + "W" + ".png"))));
+            playerIcons.put("E",new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\player\\" + "E" + ".png"))));
+            playerIcons.put("S",new ImageIcon(ImageIO.read(new File(currentDirectory+"\\src\\images\\map\\player\\" + "S" + ".png"))));
+        }catch (Exception e){}
+    }
+
+    public Map<String, ImageIcon> getMapIcons() {
+        return mapIcons;
+    }
+
+    public Map<String, ImageIcon> getPlayerIcons() {
+        return playerIcons;
     }
 
     /**
@@ -57,7 +90,7 @@ public class Loader {
                 map.get(y)[0]=new Room(0,n,y);
                 for (int x = 0; x < n; x++) {
                     String room = record.get(""+(x+1));
-                    String[] rooms=room.split(":");System.out.println(rooms.length);
+                    String[] rooms=room.split(":");
                     map.get(y)[x+1]=new Room(Integer.parseInt(rooms[0]),x+1,y);
                     if(rooms.length>1)
                         switch (rooms[1]){
@@ -125,7 +158,7 @@ public class Loader {
                 map.get(y)[0]=new Room(0,n,y);
                 for (int x = 0; x < n; x++) {
                     String room = record.get(""+(x+1));
-                    String[] rooms=room.split(":");System.out.println(rooms.length);
+                    String[] rooms=room.split(":");
                     map.get(y)[x+1]=new Room(Integer.parseInt(rooms[0]),x+1,y);
                     if(rooms[1].equals("m"))map.get(y)[x+1].setMapped(true);
                     if(rooms.length>2)
@@ -177,7 +210,7 @@ public class Loader {
                 player.setShield(new Item(itemList.get(Integer.parseInt(pStats[10]))));
 
                 for (String item: pInv) {
-                    player.getInv().add(new Item(itemList.get(Integer.parseInt(item))));
+                   if(!item.equals("")) player.getInv().add(new Item(itemList.get(Integer.parseInt(item))));
                 }
                 return player;
 

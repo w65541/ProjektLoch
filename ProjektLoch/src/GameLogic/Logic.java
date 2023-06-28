@@ -41,7 +41,7 @@ public class Logic {
                 images2.add(images.get(i).getScaledInstance(640, 480, Image.SCALE_SMOOTH));
             }
 
-            System.out.println(images.size());
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -61,12 +61,10 @@ public class Logic {
         if (isAccesible(lev.getMap().get(p.getY())[p.getX()],r)){
             ArrayList<Direction> temp=new ArrayList<>(r.getAccess());
             String render="";
-            System.out.println("Przed: "+temp.toString()+"\np.dir: "+p.getDir());
             temp.remove(p.getDir());
             for (int i=0;i<temp.size();i++){
                 render+=temp.get(i);
             }
-            System.out.println("render: "+render);
 
             if(r.isKey()) {
                 stuff.setIcon(new ImageIcon(images2.get(9)));
@@ -179,7 +177,6 @@ public class Logic {
         int x,y;
         x=r1.getX()-r2.getX();
         y=r1.getY()-r2.getY();
-        System.out.println("x "+x+" y "+y);
         if(x>0 && r1.getAccess().contains(Direction.W) && r2.getAccess().contains(Direction.E)) return true;
         if(x<0 && r1.getAccess().contains(Direction.E) && r2.getAccess().contains(Direction.W)) return true;
         if(y>0 && r1.getAccess().contains(Direction.N) && r2.getAccess().contains(Direction.S)) return true;
@@ -224,7 +221,6 @@ public class Logic {
      */
     public void moveNorth(Player p, Level r, BasicBackgroundPanel l,JLabel stuff){
         try {
-            System.out.println(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()-1)[p.getX()]));
             if(isAccesible(r.getMap().get(p.getY())[p.getX()],r.getMap().get(p.getY()-1)[p.getX()])){
                 p.setY(p.getY()-1);
                 roomRender(l,viewRoom(p,r),p,r,stuff);

@@ -10,7 +10,7 @@ import java.util.TimerTask;
  */
 public class SkeletonShield extends Enemy{
     public SkeletonShield() {
-        setHp(10+random.nextInt(dif)+(dif/2));
+        setHp(10+random.nextInt(dif)+(dif/2));setMaxHP(getHp());
         setSpeed(8);
         setDef(dif*2);
         setDamage(2+random.nextInt(dif)+(dif/2));
@@ -27,7 +27,7 @@ public class SkeletonShield extends Enemy{
             case 0:
                 setDef(getDef()/2);
                 setSpeed(8);
-                player.getHit(getDamage());
+                if(getHp()>0)   player.getHit(getDamage());
                 break;
             case 1:
                 setDef(dif*2);

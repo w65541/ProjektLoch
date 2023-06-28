@@ -49,6 +49,7 @@ public class Entity {
 
     public void setSpeed(int speed) {
         this.speed = speed;
+            if(speed<=0) this.speed=1;
     }
 
     /**
@@ -56,7 +57,8 @@ public class Entity {
      * @param damage obrażenia
      */
     public void getHit(int damage){
-        this.setHp(this.getHp()+def-damage);
+        int dmg=damage-def;
+        if(dmg>0)this.setHp(this.getHp()-dmg);
         if(damage>0)this.setHp(this.getHp()-1);
     }
     public int getX() {

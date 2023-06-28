@@ -10,17 +10,17 @@ import java.util.TimerTask;
  */
 public class SkeletonSword extends Enemy{
     public SkeletonSword() {
-        setHp(5+random.nextInt(dif)+(dif/2));
+        setHp(9+random.nextInt(dif)+(dif/2));setMaxHP(getHp());
         setSpeed(7);
         setDef(dif);
-        setDamage(3+random.nextInt(dif)+(dif/2));
+        setDamage(4+random.nextInt(dif)+(dif/2));
         name="Skeleton";
         enemyId=1;
     }
 
     @Override
     public void attack(Player player, Timer timer) {
-        player.getHit(getDamage());setActive(false);
+        if(getHp()>0) player.getHit(getDamage());setActive(false);
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

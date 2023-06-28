@@ -44,6 +44,7 @@ public class Battle extends JFrame{
             public void run() {
                 seconds++;
                 seconds_p++;
+                if(enemy.getHp()<1 || p.getHp()<1) timer.cancel();
             }
         },1000,1000); //zegar
 /**
@@ -53,7 +54,7 @@ public class Battle extends JFrame{
             @Override
             public void run() {
                 update(p,enemy);
-                if(enemy.getHp()<1) {
+                if(enemy.getHp()<1 && p.getHp()>0) {
                     win(enemy, mainView,p);
                     timer.cancel();
                     return;
@@ -110,7 +111,7 @@ public class Battle extends JFrame{
         }else{
             progressBarPlayer.setValue(p.getSpeed());
             attackButton.setEnabled(true);
-
+            defendButton.setEnabled(true);
             seconds_p=-1;
         }
     }
@@ -123,7 +124,6 @@ public class Battle extends JFrame{
      */
     void win(Enemy e,MainView m,Player p){
         m.setN(m.getN()-1);
-        System.out.println(m.getN());
         if (m.getN()==0){m.setVisible(true);
         room.setEnemies(null, 0);}
         room.setEnemy(false);

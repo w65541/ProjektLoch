@@ -13,6 +13,7 @@ import java.util.TimerTask;
 public class Slime extends Enemy{
     public Slime(){
         setHp(15+random.nextInt(dif)+(dif/2));
+        setMaxHP(getHp());
         setSpeed(10);
         setDef(dif);
         setDamage(2+random.nextInt(dif)+(dif/2));
@@ -26,7 +27,7 @@ public class Slime extends Enemy{
         int i=random.nextInt(getNumOfAttacks());
         switch (i){
             case 0:
-                player.getHit(getDamage());
+                if(getHp()>0) player.getHit(getDamage());
                 break;
             case 1:
                 if(getDamage()>0){

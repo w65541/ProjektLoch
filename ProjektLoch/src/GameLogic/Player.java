@@ -174,7 +174,7 @@ public void nextLevel(){level++;}
     void updateStats(){
         setDef(helmet.getDef()+armor.getDef()+boots.getDef()+weapon.getDef()+shield.getDef());
         setMaxHP(bHp+helmet.getHp()+armor.getHp()+boots.getHp()+weapon.getHp()+shield.getHp());
-        setSpeed(bSpeed+helmet.getSpeed()+armor.getSpeed()+boots.getSpeed()+weapon.getSpeed()+shield.getSpeed());
+        setSpeed(bSpeed-helmet.getSpeed()-armor.getSpeed()-boots.getSpeed()-weapon.getSpeed()-shield.getSpeed());
         setDamage(bDamage+helmet.getDamage()+armor.getDamage()+boots.getDamage()+weapon.getDamage()+shield.getDamage());
     }
     public ArrayList<Item> getInv() {

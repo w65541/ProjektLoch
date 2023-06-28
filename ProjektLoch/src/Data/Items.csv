@@ -1,6 +1,8 @@
 Name,Type,Hp,Speed,Damage,Defense
-a,helmet,1,0,0,1
-b,armor,1,0,0,0
-b,boots,1,0,0,0
-b,weapon,1,0,3,0
-b,shield,1,0,0,0
+Iron helmet,helmet,0,0,0,2
+Healthy shirt,armor,10,0,0,0
+Enchanted boots,boots,0,2,0,0
+Steel sword,weapon,0,0,3,0
+Buckler,shield,3,0,0,3
+Gloryhammer,weapon,0,0,7,0
+Dragon helmet,helmet,5,0,1,4

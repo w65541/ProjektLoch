@@ -12,7 +12,7 @@ public class SkeletonMace extends Enemy{
     boolean ready=true;
 
     public SkeletonMace() {
-        setHp(8+random.nextInt(dif)+(dif/2));
+        setHp(13+random.nextInt(dif)+(dif/2));setMaxHP(getHp());
         setSpeed(10);
         setDef((int) (dif*1.5));
         setDamage(5+random.nextInt(dif)+(dif/2));
@@ -25,13 +25,13 @@ public class SkeletonMace extends Enemy{
         setActive(false);
         if(ready){
             switch (random.nextInt(getNumOfAttacks())){
-                case 0:player.getHit(getDamage());break; //zwykły atak
+                case 0:if(getHp()>0) player.getHit(getDamage());break; //zwykły atak
                 case 1://
                     ready=false;
                     setSpeed(20);
                     break;}
         }else {
-            player.getHit(getDamage()*3);
+            if(getHp()>0) player.getHit(getDamage()*3);
             ready=true;
         }
         timer.schedule(new TimerTask() {

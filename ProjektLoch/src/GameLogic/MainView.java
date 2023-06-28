@@ -16,7 +16,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import GameLogic.Enemies.Necromancer;
-import lib.BackgroundPanel;
+
 import GameLogic.Enemies.Enemy;
 import GameLogic.Enemies.SkeletonSword;
 import lib.BasicBackgroundPanel;
@@ -44,7 +44,7 @@ public class MainView extends JFrame {
     private JButton loadButton;
     private JLabel key;
     private JPanel view;
-    private BackgroundPanel backgroundPanel1;
+
     private BasicBackgroundPanel basicBackgroundPanel1;
     String curentPath;
     private ArrayList<JLabel[]> mapCells = new ArrayList<>();
@@ -63,6 +63,7 @@ Player p;
     Backpack backpack;Level lev;
     public MainView(ArrayList<Level> levels,Player player,Backpack backpack,Loader loader) {
         p=player;
+        heal3Button.setText("Heal(" + p.getPotion().getCount() + ")");
         curentPath=new File("").getAbsolutePath();
         this.mainView=this;
         this.levels=levels;
@@ -301,6 +302,7 @@ Player p;
             a.setVisible(true);
         }
         setVisible(false);
+        backpack.setVisible(false);
     }
 
     /**
@@ -331,12 +333,12 @@ Player p;
 
                 for (int i = 1; i < l.getMap().size()-1; i++) {
                     for (int j = 1; j < l.getMap().get(i).length-1; j++) {
-                        if(l.getMap().get(i)[j].isMapped())mapCells.get(i-1)[j-1].setIcon((new ImageIcon(ImageIO.read(new File(curentPath+"\\src\\images\\map\\" + l.getMap().get(i)[j].map + ".png")))));
+                        if(l.getMap().get(i)[j].isMapped())mapCells.get(i-1)[j-1].setIcon(loader.getMapIcons().get( l.getMap().get(i)[j].map ));
                     }
                 }
             l.getMap().get(p.getY())[p.getX()].setMapped(false);
             mapCells.get(p.getY() - 1)[p.getX() - 1]
-                    .setIcon(new ImageIcon(ImageIO.read(new File(curentPath+"\\src\\images\\map\\player\\" + p.getDir() + ".png"))));
+                    .setIcon(loader.getPlayerIcons().get(p.getDir()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -353,12 +355,12 @@ Player p;
             ArrayList<Room> tomap = new Logic(this).mappable(p, l.getMap());
             if (tomap != null) {
                 for (int i = 0; i < tomap.size(); i++) {
-                    mapCells.get(tomap.get(i).getY() - 1)[tomap.get(i).getX() - 1].setIcon(new ImageIcon(ImageIO.read(new File(curentPath+"\\src\\images\\map\\" + tomap.get(i).map + ".png"))));
+                    mapCells.get(tomap.get(i).getY() - 1)[tomap.get(i).getX() - 1].setIcon(loader.getMapIcons().get( tomap.get(i).map));
                 }
             }
             l.getMap().get(p.getY())[p.getX()].setMapped(false);
             mapCells.get(p.getY() - 1)[p.getX() - 1]
-                    .setIcon(new ImageIcon(ImageIO.read(new File(curentPath+"\\src\\images\\map\\player\\" + p.getDir() + ".png"))));
+                    .setIcon(loader.getPlayerIcons().get(p.getDir().toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -490,7 +492,7 @@ Player p;
             }
             plik.print(temp);
             plik.println();
-            for (int i=2;i<=level.getMap().get(0).length-2;i++){
+            for (int i=2;i<=level.getMap().size()-2;i++){
                 for (int j=1;j<=level.getMap().get(0).length-2;j++){
                     temp="";
                     temp+=level.getMap().get(i)[j].getType();

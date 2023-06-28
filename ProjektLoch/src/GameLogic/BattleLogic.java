@@ -28,7 +28,7 @@ public class BattleLogic {
             @Override
             public void run() {
                 if(enemy.getHp()<=0) {timer.cancel();}
-                if(enemy.isActive()){enemyAttack();}
+                if(enemy.isActive() && enemy.getHp()>0){enemyAttack();}
 
 
             }

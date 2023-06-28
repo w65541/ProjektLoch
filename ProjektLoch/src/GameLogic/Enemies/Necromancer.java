@@ -13,7 +13,7 @@ public class Necromancer extends Enemy{
 
 
     public Necromancer(ArrayList<Enemy> t) {
-        setHp(5+random.nextInt(dif)+(dif/2));
+        setHp(5+random.nextInt(dif)+(dif/2));setMaxHP(getHp());
         setSpeed(10);
         setDef(dif);
         setDamage(5+random.nextInt(dif)+(dif/2));
@@ -26,7 +26,7 @@ public class Necromancer extends Enemy{
     public void attack(Player player, Timer timer) {
         if(team.size()>1){
             switch (random.nextInt(getNumOfAttacks())){
-                case 0:player.getHit(getDamage());break; //zwykły atak
+                case 0:if(getHp()>0) player.getHit(getDamage());break; //zwykły atak
                 case 1://leczenie innych
                     while (true){
                     Enemy temp =team.get(random.nextInt(team.size()));
@@ -37,7 +37,7 @@ public class Necromancer extends Enemy{
                     }
                     break;}
         }else {
-            player.getHit(getDamage());
+            if(getHp()>0) player.getHit(getDamage());
         }
         setActive(false);
         timer.schedule(new TimerTask() {
